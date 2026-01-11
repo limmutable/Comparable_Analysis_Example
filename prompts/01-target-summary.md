@@ -21,29 +21,61 @@ Analyze the target company's business model, financials, and competitive positio
 
 ---
 
+## Pre-flight Check (REQUIRED)
+
+**Before reading any PDF, you MUST check for large files:**
+
+### Step 1: Check for Pre-extracted Files
+
+```bash
+# First, check if .working/{company}/ has pre-extracted text files
+ls .working/
+
+# If files exist, use them directly (PREFERRED)
+# Example: .working/nota/financials-150-200.txt
+```
+
+### Step 2: If No Pre-extracted Files, Check File Size
+
+```bash
+# Run size check
+make check-file FILE=dataroom/{company}/{file}.pdf
+
+# OR use the script directly
+uv run python scripts/check_document_size.py dataroom/{company}/{file}.pdf
+```
+
+### Step 3: Handle Based on Size
+
+| Status | Action |
+|--------|--------|
+| **✓ OK** (< 500K tokens) | Read the PDF directly |
+| **⚠️ TOO LARGE** (> 500K tokens) | Extract pages first (see below) |
+
+### Step 4: Extract Pages for Large Files
+
+```bash
+# Extract specific page ranges to .working/
+make extract-pages FILE=dataroom/{company}/{file}.pdf PAGES=80-120
+
+# Output auto-saved to: .working/{company}/{file}-80-120.txt
+# Then read the extracted text file instead
+```
+
+---
+
 ## Handling Large Documents
 
-> ⚠️ If the document exceeds context limits, use page-range reading.
+> ⚠️ **CRITICAL:** Never attempt to read a full 10-K/증권신고서 directly. Always use pre-extracted files from `.working/` or extract pages first.
 
-### For 10-K Filings (100-300 pages)
+### Recommended Extraction Ranges for 10-K/증권신고서
 
-**Option 1: Chunked Reading**
-```bash
-# Step 1: Company overview
-> "Read pages 1-25 of [file] and summarize the business"
-
-# Step 2: Financial data
-> "Read pages 45-55 of [file] and extract Selected Financial Data (Item 6)"
-
-# Step 3: Full financials
-> "Read pages 80-120 of [file] and extract financial statements (Item 8)"
-```
-
-**Option 2: Targeted Query**
-```bash
-> "In [file], find ONLY: Revenue, EBITDA, Net Income, Total Debt, Cash for FY2023.
-   Search in Item 6 or Item 8."
-```
+| Section | Pages | Extract Command |
+|---------|-------|-----------------|
+| Cover & Overview | 1-30 | `make extract-pages FILE=... PAGES=1-30` |
+| Financial Summary | 45-55 | `make extract-pages FILE=... PAGES=45-55` |
+| Financial Statements | 80-130 | `make extract-pages FILE=... PAGES=80-130` |
+| Risk Factors | 150-200 | `make extract-pages FILE=... PAGES=150-200` |
 
 ### Key 10-K Sections
 
@@ -59,6 +91,8 @@ Analyze the target company's business model, financials, and competitive positio
 ## Analysis Checklist
 
 Before starting, confirm:
+- [ ] **Pre-extracted files checked** in `.working/{company}/`
+- [ ] **File size verified** (< 500K tokens) OR pages extracted
 - [ ] Company name/ticker identified
 - [ ] Source documents located in dataroom
 - [ ] Document type identified (public filing vs. private materials)
@@ -189,11 +223,43 @@ Analyze source documents and produce the following summary:
 
 ---
 
-## Usage Example
+## Usage Examples
+
+### Example 1: Using Pre-extracted Files (Recommended)
 
 ```bash
+# If .working/nota/ already has extracted files:
 claude
-> "Using the prompt template in prompts/01-target-summary.md, analyze the company in dataroom/target-company/pitch-deck.pdf"
+> "Using prompts/01-target-summary.md, analyze Nota using the files in .working/nota/"
+
+# Or be specific:
+> "Read .working/nota/cover.txt and .working/nota/financials-150-200.txt to create a company summary for Nota"
+```
+
+### Example 2: Small PDF (< 500K tokens)
+
+```bash
+# First check size
+make check-file FILE=dataroom/target-company/pitch-deck.pdf
+
+# If OK, read directly
+claude
+> "Using prompts/01-target-summary.md, analyze dataroom/target-company/pitch-deck.pdf"
+```
+
+### Example 3: Large PDF (Extract First)
+
+```bash
+# Step 1: Check size (will show ⚠️ TOO LARGE)
+make check-file FILE=dataroom/nota/nota-sec.pdf
+
+# Step 2: Extract key sections
+make extract-pages FILE=dataroom/nota/nota-sec.pdf PAGES=1-30
+make extract-pages FILE=dataroom/nota/nota-sec.pdf PAGES=150-200
+
+# Step 3: Analyze extracted files
+claude
+> "Using prompts/01-target-summary.md, analyze Nota using .working/nota/nota-sec-1-30.txt and .working/nota/nota-sec-150-200.txt"
 ```
 
 ---
