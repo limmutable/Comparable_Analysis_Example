@@ -12,7 +12,8 @@
       "Bash(make:*)",
       "Skill(pdf-parser)",
       "WebSearch",
-      "Bash(git check-ignore:*)"
+      "Bash(git check-ignore:*)",
+      "Skill(financial-analysis)"
     ]
   }
 }
