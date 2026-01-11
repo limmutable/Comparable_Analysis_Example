@@ -7,12 +7,25 @@
 
 ## 1. 사업 개요
 
+Nota는 AI 모델 경량화 및 최적화 기술을 기반으로 온디바이스 AI 솔루션을 제공하는 기업입니다. 하드웨어 인지(Hardware-Aware) AI 최적화 기술을 통해 스마트폰, 자동차, 가전제품 등 개별 디바이스에서 AI 모델이 효율적으로 구동될 수 있도록 지원합니다.
+
 | 구분 | 내용 |
 |------|------|
-| 산업 | AI 모델 최적화 소프트웨어 (AI Model Compression & Optimization) |
-| 제품/서비스 | NetsPresso Platform - AI 모델 경량화, 양자화, 컴파일 도구 |
-| 수익 모델 | B2B SaaS 라이선스 (연간 계약), 기술 컨설팅 |
-| 타겟 시장 | 글로벌 반도체 기업, IT 디바이스 제조사 (삼성, 퀄컴 등) |
+| **산업** | AI 소프트웨어 / 온디바이스 AI / 엣지 AI |
+| **제품/서비스** | NetsPresso Platform (AI 모델 최적화 플랫폼), NetsPresso Solution (맞춤형 AI 솔루션) |
+| **수익 모델** | B2B 플랫폼 라이선싱, 프로젝트 기반 솔루션 공급, Revenue Sharing |
+| **타겟 시장** | 반도체 제조사, 전자기기 제조사, 스마트시티, IoT, 자동차 |
+
+### 핵심 사업 영역
+
+1. **NetsPresso Platform**: 온디바이스 AI 모델 개발 자동화 플랫폼
+   - 대규모 AI 모델을 저전력/저사양 하드웨어에서 효율적으로 작동하도록 경량화
+   - 다양한 하드웨어(CPU, GPU, NPU, MCU) 지원
+   - 주요 고객: 삼성전자, Arm, Renesas 등 글로벌 반도체 기업
+
+2. **NetsPresso Solution**: 경량 AI 모델 기반 맞춤형 애플리케이션
+   - ITS(지능형 교통 시스템), 안면인식, DMS(운전자 모니터링), CCTV 관제 등
+   - 스마트시티, 홈IoT, 스마트팩토리 등 적용
 
 ### 핵심 기술
 - **모델 경량화 (Model Compression)**: Pruning, Knowledge Distillation, Filter Decomposition
@@ -25,21 +38,41 @@
 
 ### 손익계산서 요약
 
-| Metric | FY2024 | H1 2025 | YoY Growth | Source |
-|--------|--------|---------|------------|--------|
-| Revenue (영업수익) | 8,437 M | 568 M | - | [nota-sec.pdf, p.319] |
-| Operating Expenses (영업비용) | 20,457 M | 8,825 M | - | [nota-sec.pdf, p.319] |
-| Operating Income (영업이익) | (12,019) M | (8,256) M | - | [nota-sec.pdf, p.319] |
+| Metric | FY2024 | FY2023 | FY2022 | Source |
+|--------|--------|--------|--------|--------|
+| Revenue (영업수익) | 8,437 M | 3,581 M | 2,005 M | [p.545] |
+| Operating Loss (영업손실) | (12,019) M | (11,324) M | (9,548) M | [p.545] |
+| Net Loss (당기순손실) | (24,852) M | (13,135) M | (7,895) M | [p.545] |
 
 *단위: 백만원 (KRW Million), K-IFRS 연결재무제표 기준*
+
+### 재무상태표 요약 (H1 2025)
+
+| Metric | H1 2025 | FY2024 | Source |
+|--------|---------|--------|--------|
+| Total Assets (자산총계) | 23,066 M | 27,420 M | [p.546] |
+| Total Liabilities (부채총계) | 15,208 M | 97,936 M | [p.546] |
+| Cash (현금) | 10,088 M | 6,676 M | [p.546] |
+| Equity (자본총계) | 7,857 M | (70,517) M | [p.546] |
+
+*주: FY2024 부채에는 상환전환우선주(RCPS) 및 파생상품부채 포함, IPO 후 자본전환됨*
+
+### 매출 성장 추이
+
+| 연도 | 매출 (백만원) | YoY 성장률 |
+|------|--------------|-----------|
+| 2022 | 2,005 | - |
+| 2023 | 3,581 | +79% |
+| 2024 | 8,437 | +136% |
+| **CAGR (2022-2024)** | - | **~160%** |
 
 ### 2025년 월별 실적 (미감사)
 
 | 월 | Revenue | Operating Loss | Source |
 |----|---------|----------------|--------|
-| 7월 | 220 M | (1,817) M | [nota-sec.pdf, p.316] |
-| 8월 | 1,048 M | (1,589) M | [nota-sec.pdf, p.316] |
-| 9월 | 1,761 M | (2,075) M | [nota-sec.pdf, p.316] |
+| 7월 | 220 M | (1,817) M | [p.316] |
+| 8월 | 1,048 M | (1,589) M | [p.316] |
+| 9월 | 1,761 M | (2,075) M | [p.316] |
 
 *주: 감사 또는 검토받지 아니한 자체 결산 기준*
 
@@ -51,54 +84,109 @@
 
 | 사업부문 | FY2024 | FY2025(E) | FY2026(E) | Source |
 |----------|--------|-----------|-----------|--------|
-| NetsPresso Platform (반도체) | - | 2,500 M | 3,000 M | [nota-sec.pdf, p.398] |
-| On-Device LLM | 700 M | 880 M | 1,400 M | [nota-sec.pdf, p.399] |
+| NetsPresso Platform (반도체) | - | 2,500 M | 3,000 M | [p.398] |
+| On-Device LLM | 700 M | 880 M | 1,400 M | [p.399] |
 
 ### 주요 고객사 파이프라인
 
 | 고객 | 예상 계약금액 | 상태 | Source |
 |------|---------------|------|--------|
-| N사 (네덜란드 반도체) | 15억원 (2025), 18억원 (2026) | 계약 협의 중 | [nota-sec.pdf, p.398] |
-| D사 (국내 AI 가속기) | 10억원 (2025), 12억원+ (2026) | PoC 완료 | [nota-sec.pdf, p.398] |
-| W사 (Real-time OS) | 6억원 (2026) | 파트너십 체결 | [nota-sec.pdf, p.399] |
+| N사 (네덜란드 반도체) | 15억원 (2025), 18억원 (2026) | 계약 협의 중 | [p.398] |
+| D사 (국내 AI 가속기) | 10억원 (2025), 12억원+ (2026) | PoC 완료 | [p.398] |
+| W사 (Real-time OS) | 6억원 (2026) | 파트너십 체결 | [p.399] |
+
+### 주요 고객사
+- 삼성전자 (반도체)
+- Arm (반도체 IP)
+- Renesas (자동차 반도체)
+- 대전시 (스마트시티)
+- 직방 (PropTech)
 
 ---
 
-## 4. 검증 (Validation)
+## 4. 경쟁 우위 (Competitive Advantage)
 
-<thinking>
-**Data Validation Checklist:**
-1. Operating Loss < Revenue? → Yes: (12,019) < 8,437 (Loss exceeds revenue - typical for growth-stage tech company)
-2. H1 2025 vs FY2024 run-rate reasonable? → Yes: 568 * 2 = 1,136 vs 8,437 (lower, but H2 typically stronger)
-3. Monthly losses consistent? → Yes: 1,500-2,000M range across Jul-Sep 2025
-4. Units consistent? → Yes: All figures in 백만원 (millions KRW)
+### 기술적 차별화
+- **하드웨어 인지(Hardware-Aware) 최적화**: CPU, GPU, NPU, MCU 등 다양한 프로세서 특성을 반영한 자동 최적화
+- **End-to-End 자동화**: 모델 변환, 경량화, 배포까지 일괄 자동화 플랫폼
+- **프레임워크 독립성**: PyTorch, TensorFlow, ONNX 등 다양한 ML 프레임워크 지원
 
-**Cross-Reference Check:**
-- Page 316 and 319 both reference same 2024 figures ✓
-- Monthly 2025 data sums approximately match expected H2 trajectory ✓
-</thinking>
+### 지적재산권
+
+| 구분 | 건수 |
+|------|------|
+| 국내 특허 | 82건 |
+| 미국 특허 | 12건 |
+| 일본 특허 | 10건 |
+| 상표권 | 15건 |
+| **총 IP** | **119건** |
+
+### 학술 경쟁력
+- CVPR, NeurIPS, ECCV 등 AI 분야 Top-tier 국제 학회 논문 발표
+- AI 챌린지 다수 수상
+
+### 선점 효과 (First-Mover Advantage)
+- 2019년 시장 진입, 국내 최초 AI 모델 최적화 전문 기업
+- 글로벌 반도체 기업과의 협력 관계 구축
 
 ---
 
-## 5. 주요 리스크
+## 5. 경쟁사 (Competitors)
+
+| Competitor | 본사 | 주요 특징 | 차별화 포인트 |
+|------------|------|----------|--------------|
+| **Deci AI** | 이스라엘 | Neural Architecture Search 기반 최적화 | GPU 중심, 당사는 엣지/다양한 HW |
+| **Neural Magic** | 미국 | Pruning 기반 경량화 | CPU 중심, 당사는 NPU/MCU 포함 |
+| **스퀴즈비츠** | 한국 | AI 모델 압축 | 후발주자 |
+| **클리카** | 한국 | 경량화 솔루션 | 후발주자 |
+| **옵트AI** | 한국 | AI 최적화 | 후발주자 |
+
+### 경쟁 구도
+- 시장 초기 단계로 명확한 시장 리더 부재 (파편화된 경쟁구도)
+- Cadence, Synopsys 등 EDA 기업도 AI 최적화 영역 진출 중
+- 당사는 독립 플랫폼으로 다양한 HW 생태계 지원이 핵심 차별점
+
+---
+
+## 6. 시장 규모
+
+| 시장 | 2023 | 2027-2030 | CAGR | Source |
+|------|------|-----------|------|--------|
+| On-Device AI (TAM) | $3.79B | $50.49B (2027) | 38.22% | WiseGuy Reports |
+| On-Device AI SW (SAM) | $260M | $1.1B (2028) | 32.7% | MarketsandMarkets |
+| Edge AI (TAM) | $18.5B | $173.9B (2030) | 37.7% | MarketsandMarkets |
+| Cloud AI | $59.4B | $1,117B (2033) | 38.5% | market.us |
+
+---
+
+## 7. 리스크 및 기회
+
+### 주요 리스크
 
 1. **수익성 리스크**: 지속적인 영업손실 (FY2024 영업손실 120억원)
 2. **고객 집중 리스크**: 소수의 대형 반도체 고객에 매출 의존
 3. **기술 리스크**: AI 모델 트렌드 변화에 따른 지속적 R&D 필요
 4. **경쟁 리스크**: 글로벌 빅테크 기업의 자체 최적화 도구 개발 가능성
+5. **거시경제 리스크**: IT 투자 및 R&D 예산 축소 시 전방산업 수요 감소
+
+### 투자 기회
+
+- On-Device AI 시장 성장에 따른 수혜 예상 (CAGR 38%+)
+- 글로벌 반도체 기업과의 기술 파트너십 확보
+- 기술적 종속성으로 인한 고객 Lock-in 효과
+- AI 칩 다양화 → 최적화 플랫폼 수요 증가
 
 ---
 
-## 6. 투자 포인트
+## 부록: IPO 정보
 
-### Positive
-- On-Device AI 시장 성장에 따른 수혜 예상
-- 글로벌 반도체 기업과의 기술 파트너십 확보
-- 기술적 종속성으로 인한 고객 Lock-in 효과
-
-### Negative
-- 적자 지속으로 자금 조달 필요
-- 매출 인식 시점의 불확실성 (대형 계약 의존)
+| 항목 | 내용 |
+|------|------|
+| **상장 시장** | 코스닥 (KOSDAQ) |
+| **대표주관사** | 미래에셋증권 |
+| **최대주주** | 김태호 (사내이사/CTO) - 14.0% |
+| **공동대표** | 채명수 (대표이사) - 9.3% |
+| **의무보유 확약** | 최대주주등 3년간 의무보유 |
 
 ---
 

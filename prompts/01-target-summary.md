@@ -186,10 +186,31 @@ Analyze source documents and produce the following summary:
 
 ---
 
+## Output File Location
+
+**IMPORTANT:** Save the output to the correct location following the project structure:
+
+```
+output/{company-name}/01-company-summary.md
+```
+
+For example:
+- `output/nota/01-company-summary.md`
+- `output/target-company/01-company-summary.md`
+
+> See `prompts/05-output-format.md` for full output directory structure.
+
+---
+
 ## Output Format
 
 ```markdown
 # {Company Name} 회사 요약
+
+**분석일:** {YYYY-MM-DD}
+**데이터 출처:** {Source files}
+
+---
 
 ## 1. 사업 개요
 [Summary paragraph]

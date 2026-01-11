@@ -180,3 +180,22 @@ After preparation, use with analysis prompts:
 # Full comparable analysis
 > "Using prompts/startup-comps-full.md, perform analysis on {company}"
 ```
+
+## Output File Locations
+
+Analysis outputs should be saved to the following locations (per `prompts/05-output-format.md`):
+
+```
+output/
+├── {company-name}/
+│   ├── 01-company-summary.md    ← Target summary output
+│   ├── 02-peer-selection.md
+│   ├── 03-financial-data.md
+│   ├── 03-financial-data.csv
+│   ├── 04-valuation-analysis.md
+│   └── 04-comps-table.csv
+└── reports/
+    └── {company-name}-comps-report-{YYYY-MM-DD}.md
+```
+
+Example: For Nota analysis, save to `output/nota/01-company-summary.md`
