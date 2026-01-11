@@ -1,22 +1,20 @@
-# Stage 4: Valuation Analysis
+# Stage 3: Valuation Analysis
 
 Calculate trading multiples and derive implied valuation for the target company.
 
-**Previous:** [Peer Selection](03-peer-selection.md) | **Next:** [Output & Reports](05-output-reports.md) | **Main:** [Workflow Overview](analysis-workflow.md)
+**Previous:** [Peer Selection](02-peer-selection.md) | **Next:** [Output & Reports](04-output-reports.md) | **Main:** [Workflow Overview](analysis-workflow.md)
 
 ---
 
 ## Overview
 
 This stage involves:
-1. Extracting financial data for all peer companies
-2. Calculating trading multiples
-3. Applying multiples to derive target valuation
-4. Performing sensitivity analysis
+1. Calculating trading multiples from peer financial data
+2. Applying multiples to derive target valuation
+3. Performing sensitivity analysis
 
-**Prompt Templates:**
-- `prompts/03-data-extraction.md` - Extract peer financials
-- `prompts/04-valuation-analysis.md` - Calculate multiples and valuation
+**Input:** Peer financial data from `output/{company}/02-peer-selection.md`
+**Prompt Template:** `prompts/03-valuation-analysis.md`
 
 ---
 
@@ -25,40 +23,15 @@ This stage involves:
 ```bash
 claude
 # Use the financial-analysis skill for comprehensive valuation
-> "Use the financial-analysis skill to perform valuation analysis for Nota using the peer group from output/nota/02-peer-selection.md"
+> "Use the financial-analysis skill to perform valuation analysis for Nota using the peer data from output/nota/02-peer-selection.md"
 
-# Or step by step:
-# Extract peer data
-> "Using prompts/03-data-extraction.md, extract financial data for all companies in the peer group"
-
-# Run valuation
-> "Using prompts/04-valuation-analysis.md, calculate trading multiples and implied valuation for the target"
+# Or with explicit prompt reference
+> "Using prompts/03-valuation-analysis.md, calculate trading multiples and implied valuation for Nota"
 ```
 
 ---
 
-## Data Collection Methodology
-
-### Web Search for Peer Financials
-
-For each peer company, use these search queries:
-
-```
-"[company name] [ticker] revenue 2024 financial results"
-"[company name] market cap enterprise value"
-"[company name] Q4 2024 earnings"
-```
-
-### Free Data Sources
-
-| Source | URL | Best For |
-|--------|-----|----------|
-| Stock Analysis | stockanalysis.com | Revenue, market cap, multiples |
-| Yahoo Finance | finance.yahoo.com | Current price, key statistics |
-| Company IR | ir.[company].com | Latest earnings releases |
-| Simply Wall St | simplywall.st | Peer comparisons |
-
-### Pre-Profit Company Handling
+## Pre-Profit Company Handling
 
 For companies with negative EBITDA (common in AI/tech):
 
@@ -80,49 +53,7 @@ For companies with negative EBITDA (common in AI/tech):
 
 ---
 
-## Step 1: Extract Peer Financial Data
-
-### Required Metrics
-
-| Metric | Definition | Source |
-|--------|------------|--------|
-| Revenue (LTM) | Trailing 12-month revenue | Income Statement |
-| EBITDA (LTM) | Operating Income + D&A | Calculated |
-| EBIT (LTM) | Operating Income | Income Statement |
-| Net Income (LTM) | Bottom line earnings | Income Statement |
-| Cash | Cash & equivalents | Balance Sheet |
-| Total Debt | Short + Long term debt | Balance Sheet |
-| Market Cap | Price × Shares | Market data |
-| Enterprise Value | Market Cap + Debt - Cash | Calculated |
-
-### Data Extraction Template
-
-```bash
-> "For each peer company, extract and create a table with:
-   - Revenue (LTM)
-   - EBITDA (LTM)
-   - Net Income (LTM)
-   - Cash
-   - Total Debt
-   - Market Cap
-   - Calculate Enterprise Value
-   Include source citations [File, Page] for each metric."
-```
-
-### Self-Correction Checks
-
-```
-<thinking>
-1. Is EBITDA > Revenue? (Impossible - check units)
-2. Is Net Income > EBITDA? (Unlikely unless one-time gain)
-3. Does Market Cap = Price × Shares?
-4. Does EV = Market Cap + Debt - Cash?
-</thinking>
-```
-
----
-
-## Step 2: Calculate Trading Multiples
+## Step 1: Calculate Trading Multiples
 
 ### Enterprise Value Multiples
 
@@ -154,7 +85,7 @@ For companies with negative EBITDA (common in AI/tech):
 
 ---
 
-## Step 3: Apply Multiples to Target
+## Step 2: Apply Multiples to Target
 
 ### Implied Valuation Calculation
 
@@ -182,7 +113,7 @@ P/E Method:
 
 ---
 
-## Step 4: Qualitative Adjustment
+## Step 3: Qualitative Adjustment
 
 ### Premium/Discount Analysis
 
@@ -211,7 +142,7 @@ Conclusion: Target warrants a [Premium/Discount] because...
 
 ---
 
-## Step 5: Sensitivity Analysis
+## Step 4: Sensitivity Analysis
 
 ### Multiple Sensitivity
 
@@ -233,7 +164,7 @@ Conclusion: Target warrants a [Premium/Discount] because...
 
 ---
 
-## Step 6: Valuation Range Summary
+## Step 5: Valuation Range Summary
 
 | Method | Low | Mid | High |
 |--------|-----|-----|------|
@@ -254,7 +185,7 @@ Conclusion: Target warrants a [Premium/Discount] because...
 
 ## Output Format
 
-Save valuation analysis to `output/{company-name}/04-valuation-analysis.md`:
+Save valuation analysis to `output/{company-name}/03-valuation-analysis.md`:
 
 ```markdown
 # {Company Name} 밸류에이션 분석
@@ -287,16 +218,15 @@ Save valuation analysis to `output/{company-name}/04-valuation-analysis.md`:
 - [Assumption 2]
 ```
 
-Also export data to `output/{company-name}/04-comps-table.csv`.
+Also export data to `output/{company-name}/03-comps-table.csv`.
 
 ---
 
 ## Validation Checklist
 
-- [ ] All peer data extracted with sources
-- [ ] Multiples calculated correctly
+- [ ] Multiples calculated correctly from peer data
 - [ ] Negative EBITDA peers excluded from EV/EBITDA
-- [ ] Target valuation calculated using multiple methods
+- [ ] Target valuation calculated using appropriate methods
 - [ ] Sensitivity analysis completed
 - [ ] Premium/discount rationale documented
 
@@ -304,4 +234,4 @@ Also export data to `output/{company-name}/04-comps-table.csv`.
 
 ## Next Step
 
-→ Proceed to [Output & Reports](05-output-reports.md)
+→ Proceed to [Output & Reports](04-output-reports.md)

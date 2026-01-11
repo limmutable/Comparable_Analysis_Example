@@ -1,8 +1,8 @@
-# Stage 3: Peer Group Selection
+# Stage 2: Peer Group Selection
 
 Identify comparable companies for valuation benchmarking.
 
-**Previous:** [Target Analysis](02-target-analysis.md) | **Next:** [Valuation Analysis](04-valuation.md) | **Main:** [Workflow Overview](analysis-workflow.md)
+**Previous:** [Target Analysis](01-target-analysis.md) | **Next:** [Valuation Analysis](03-valuation.md) | **Main:** [Workflow Overview](analysis-workflow.md)
 
 ---
 
@@ -18,7 +18,7 @@ Select 5-10 comparable public companies that can serve as valuation benchmarks f
 
 ```bash
 claude
-> "Using prompts/02-peer-selection.md, identify comparable companies for Nota based on output/nota/01-company-summary.md"
+> "Using prompts/02-peer-selection.md, identify comparable companies for Nota based on output/nota/01-target-summary.md"
 ```
 
 ---
@@ -35,7 +35,7 @@ Before searching for peers, summarize the target company:
 | **Revenue Growth** | X% YoY |
 | **Profitability** | Profitable / Pre-profit |
 | **Target Customers** | e.g., Semiconductor, Enterprise |
-| **Key Competitors** | From 01-company-summary.md |
+| **Key Competitors** | From 01-target-summary.md |
 
 ---
 
@@ -278,4 +278,4 @@ Before proceeding to valuation:
 
 ## Next Step
 
-→ Proceed to [Valuation Analysis](04-valuation.md)
+→ Proceed to [Valuation Analysis](03-valuation.md)

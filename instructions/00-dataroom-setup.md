@@ -1,8 +1,8 @@
-# Stage 1: Dataroom Setup
+# Stage 0: Dataroom Setup
 
 Prepare and organize source materials for analysis.
 
-**Previous:** - | **Next:** [Target Analysis](02-target-analysis.md) | **Main:** [Workflow Overview](analysis-workflow.md)
+**Previous:** - | **Next:** [Target Analysis](01-target-analysis.md) | **Main:** [Workflow Overview](analysis-workflow.md)
 
 ---
 
@@ -146,4 +146,4 @@ Before moving to Target Analysis:
 
 ## Next Step
 
-→ Proceed to [Target Analysis](02-target-analysis.md)
+→ Proceed to [Target Analysis](01-target-analysis.md)

@@ -20,11 +20,11 @@ Welcome to the Comparable Analysis project documentation. This directory contain
 
 | Stage | Document | Description | Prompt |
 |-------|----------|-------------|--------|
-| 1 | [Dataroom Setup](01-dataroom-setup.md) | Prepare and organize source materials | - |
-| 2 | [Target Analysis](02-target-analysis.md) | Analyze target company financials | `01-target-summary.md` |
-| 3 | [Peer Selection](03-peer-selection.md) | Identify comparable companies | `02-peer-selection.md` |
-| 4 | [Valuation Analysis](04-valuation.md) | Calculate multiples and implied value | `03-data-extraction.md`, `04-valuation-analysis.md` |
-| 5 | [Output & Reports](05-output-reports.md) | Generate deliverables | `05-output-format.md` |
+| 0 | [Dataroom Setup](00-dataroom-setup.md) | Prepare and organize source materials | - |
+| 1 | [Target Analysis](01-target-analysis.md) | Analyze target company financials | `01-target-summary.md` |
+| 2 | [Peer Selection](02-peer-selection.md) | Identify peers and extract financial data | `02-peer-selection.md` |
+| 3 | [Valuation Analysis](03-valuation.md) | Calculate multiples and implied value | `03-valuation-analysis.md` |
+| 4 | [Output & Reports](04-output-reports.md) | Generate deliverables | `04-output-format.md` |
 
 ---
 
@@ -42,16 +42,16 @@ Welcome to the Comparable Analysis project documentation. This directory contain
          │
     ┌────┴────┐
     ▼         ▼
-Stage 1 → Stage 2 → Stage 3 → Stage 4 → Stage 5
+Stage 1 → Stage 2 → Stage 3 → Stage 4
 ```
 
 1. **[Getting Started](getting-started.md)** - Set up development environment, install CLI tools
 2. **[Analysis Workflow](analysis-workflow.md)** - Understand the overall workflow
-3. **[Dataroom Setup](01-dataroom-setup.md)** - Organize source documents
-4. **[Target Analysis](02-target-analysis.md)** - Analyze target company
-5. **[Peer Selection](03-peer-selection.md)** - Select comparable companies
-6. **[Valuation Analysis](04-valuation.md)** - Calculate multiples and valuation
-7. **[Output & Reports](05-output-reports.md)** - Generate final deliverables
+3. **[Dataroom Setup](00-dataroom-setup.md)** - Organize source documents
+4. **[Target Analysis](01-target-analysis.md)** - Analyze target company
+5. **[Peer Selection](02-peer-selection.md)** - Select peers and extract financial data
+6. **[Valuation Analysis](03-valuation.md)** - Calculate multiples and valuation
+7. **[Output & Reports](04-output-reports.md)** - Generate final deliverables
 
 ---
 

@@ -1,8 +1,8 @@
-# Stage 2: Target Company Analysis
+# Stage 1: Target Company Analysis
 
 Analyze and extract financial data from the target company.
 
-**Previous:** [Dataroom Setup](01-dataroom-setup.md) | **Next:** [Peer Selection](03-peer-selection.md) | **Main:** [Workflow Overview](analysis-workflow.md)
+**Previous:** [Dataroom Setup](00-dataroom-setup.md) | **Next:** [Peer Selection](02-peer-selection.md) | **Main:** [Workflow Overview](analysis-workflow.md)
 
 ---
 
@@ -238,7 +238,7 @@ Use these validation rules (built into `prompts/01-target-summary.md`):
 
 ## Output Format
 
-Save extracted data to `output/{company-name}/01-company-summary.md`:
+Save extracted data to `output/{company-name}/01-target-summary.md`:
 
 ```markdown
 # {Company Name} 회사 요약

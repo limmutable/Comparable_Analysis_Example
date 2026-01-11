@@ -7,12 +7,14 @@ This directory contains **final analysis outputs and reports**.
 ```
 output/
 ├── {company-name}/          # Company-specific analysis outputs
-│   ├── 01-company-summary.md
-│   ├── 02-peer-analysis.md
-│   ├── 03-valuation.md
+│   ├── 01-target-summary.md
+│   ├── 02-peer-selection.md  # Includes peer financial data
+│   ├── 02-peer-data.csv
+│   ├── 03-valuation-analysis.md
+│   ├── 03-comps-table.csv
 │   └── ...
 ├── reports/                 # Cross-company reports and summaries
-│   └── comparable-analysis.md
+│   └── {company}-comps-report-{date}.md
 └── README.md                # This file
 ```
 
@@ -20,10 +22,12 @@ output/
 
 | Stage | Filename | Description |
 |-------|----------|-------------|
-| 2 | `01-company-summary.md` | Target company financial summary |
-| 3 | `02-peer-analysis.md` | Peer company comparison |
-| 4 | `03-valuation.md` | Valuation multiples and implied value |
-| 5 | `04-final-report.md` | Complete analysis report |
+| 1 | `01-target-summary.md` | Target company financial summary |
+| 2 | `02-peer-selection.md` | Peer group selection + financial data |
+| 2 | `02-peer-data.csv` | Peer financial data export |
+| 3 | `03-valuation-analysis.md` | Valuation multiples and implied value |
+| 3 | `03-comps-table.csv` | Comps table export |
+| 4 | `reports/{company}-comps-report-{date}.md` | Complete analysis report |
 
 ## Notes
 
@@ -34,4 +38,4 @@ output/
 
 ## Example
 
-See `nota/01-company-summary.md` for a sample output format.
+See `nota/01-target-summary.md` for a sample output format.

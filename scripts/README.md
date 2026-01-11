@@ -157,5 +157,5 @@ Report compiled successfully: output/reports/nota-comps-report-2026-01-12.md
 ## Related Documentation
 
 - [Getting Started](../instructions/getting-started.md) - Project setup
-- [Target Analysis](../instructions/02-target-analysis.md) - Handling large documents
+- [Target Analysis](../instructions/01-target-analysis.md) - Handling large documents
 - [Prompts README](../prompts/README.md) - Prompt templates

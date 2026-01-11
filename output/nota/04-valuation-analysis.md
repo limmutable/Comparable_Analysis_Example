@@ -220,7 +220,7 @@ EV/Revenue Multiple Map
 
 ## 10. 다음 단계
 
-- [ ] `05-output-format.md` - 최종 보고서 작성 및 CSV 내보내기
+- [ ] `04-output-format.md` - 최종 보고서 작성 및 CSV 내보내기
 - [ ] 분기별 실적 업데이트 시 밸류에이션 재검토
 - [ ] 추가 Peer 발굴 (신규 상장 AI 기업)
 

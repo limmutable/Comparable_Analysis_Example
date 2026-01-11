@@ -109,17 +109,16 @@ After extraction, verify files exist and report:
 
 ## Output Locations
 
-Per `prompts/05-output-format.md`, save analysis outputs to:
+Per `prompts/04-output-format.md`, save analysis outputs to:
 
 ```
 output/
 ├── {company-name}/
-│   ├── 01-company-summary.md
-│   ├── 02-peer-selection.md
-│   ├── 03-financial-data.md
-│   ├── 03-financial-data.csv
-│   ├── 04-valuation-analysis.md
-│   └── 04-comps-table.csv
+│   ├── 01-target-summary.md
+│   ├── 02-peer-selection.md      # Includes peer financial data
+│   ├── 02-peer-data.csv
+│   ├── 03-valuation-analysis.md
+│   └── 03-comps-table.csv
 └── reports/
     └── {company-name}-comps-report-{YYYY-MM-DD}.md
 ```

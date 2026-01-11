@@ -14,8 +14,8 @@ Calculate trading multiples for the peer group and derive an implied valuation r
 
 | Required | Source |
 |----------|--------|
-| Financial data | Output from `03-data-extraction.md` or `03-financial-data.md` |
-| Target company financials | From target summary or data extraction |
+| Financial data | Output from `02-peer-selection.md` (includes peer data) |
+| Target company financials | From `01-target-summary.md` |
 | Peer group list | Output from `02-peer-selection.md` |
 
 ---
@@ -257,7 +257,7 @@ Compare Target to the Median peer.
 
 ```bash
 claude
-> "Using prompts/04-valuation-analysis.md, calculate trading multiples and implied valuation for {Target} using the financial data in output/peer-financials.csv. Include sensitivity analysis."
+> "Using prompts/03-valuation-analysis.md, calculate trading multiples and implied valuation for {Target} using the financial data in output/{company}/02-peer-selection.md. Include sensitivity analysis."
 ```
 
 ---
@@ -265,4 +265,4 @@ claude
 ## Next Steps
 
 After completing valuation analysis, proceed to:
-- `05-output-format.md` - Format final report and export files
+- `04-output-format.md` - Format final report and export files

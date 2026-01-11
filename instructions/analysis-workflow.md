@@ -12,22 +12,22 @@ This guide provides a structured approach to conducting comparable financial ana
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                     │
 │   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐            │
-│   │  1. Setup   │───▶│  2. Target  │───▶│  3. Peers   │            │
-│   │  Dataroom   │    │  Analysis   │    │  Selection  │            │
+│   │  0. Setup   │───▶│  1. Target  │───▶│  2. Peers & │            │
+│   │  Dataroom   │    │  Analysis   │    │    Data     │            │
 │   └─────────────┘    └─────────────┘    └─────────────┘            │
 │         │                  │                  │                     │
 │         ▼                  ▼                  ▼                     │
-│   01-dataroom-      02-target-         03-peer-                    │
+│   00-dataroom-      01-target-         02-peer-                    │
 │   setup.md          analysis.md        selection.md                │
 │                                                                     │
 │   ┌─────────────┐    ┌─────────────┐                               │
-│   │ 4. Valuation│───▶│ 5. Output & │                               │
+│   │ 3. Valuation│───▶│ 4. Output & │                               │
 │   │  Analysis   │    │   Reports   │                               │
 │   └─────────────┘    └─────────────┘                               │
 │         │                  │                                        │
 │         ▼                  ▼                                        │
-│   04-valuation.md    05-output-                                    │
-│                      reports.md                                     │
+│   03-valuation.md   04-output-                                     │
+│                     reports.md                                      │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -38,11 +38,11 @@ This guide provides a structured approach to conducting comparable financial ana
 
 | Stage | Guide | Description | Prompt Template |
 |-------|-------|-------------|-----------------|
-| 1 | [Dataroom Setup](01-dataroom-setup.md) | Prepare and organize source materials | - |
-| 2 | [Target Analysis](02-target-analysis.md) | Analyze target company financials | `prompts/01-target-summary.md` |
-| 3 | [Peer Selection](03-peer-selection.md) | Identify comparable companies | `prompts/02-peer-selection.md` |
-| 4 | [Valuation Analysis](04-valuation.md) | Calculate multiples and implied value | `prompts/03-data-extraction.md`, `prompts/04-valuation-analysis.md` |
-| 5 | [Output & Reports](05-output-reports.md) | Generate deliverables | `prompts/05-output-format.md` |
+| 0 | [Dataroom Setup](00-dataroom-setup.md) | Prepare and organize source materials | - |
+| 1 | [Target Analysis](01-target-analysis.md) | Analyze target company financials | `prompts/01-target-summary.md` |
+| 2 | [Peer Selection](02-peer-selection.md) | Identify peers and extract financial data | `prompts/02-peer-selection.md` |
+| 3 | [Valuation Analysis](03-valuation.md) | Calculate multiples and implied value | `prompts/03-valuation-analysis.md` |
+| 4 | [Output & Reports](04-output-reports.md) | Generate deliverables | `prompts/04-output-format.md` |
 
 **Full Workflow Prompt:** `prompts/startup-comps-full.md` - Runs all stages end-to-end
 
@@ -62,19 +62,19 @@ claude
 ### Option 2: Run Stage by Stage (Manual)
 
 ```bash
-# Stage 1: Setup dataroom (manual - see 01-dataroom-setup.md)
+# Stage 0: Setup dataroom (manual - see 00-dataroom-setup.md)
 
-# Stage 2: Target analysis
+# Stage 1: Target analysis
 > "Using prompts/01-target-summary.md, analyze dataroom/target-company/10-K-2024.pdf"
 
-# Stage 3: Peer selection
-> "Using prompts/02-peer-selection.md, identify 5-7 comparable companies"
+# Stage 2: Peer selection and data extraction
+> "Using prompts/02-peer-selection.md, identify 5-7 comparable companies and extract their financial data"
 
-# Stage 4: Valuation analysis
-> "Using prompts/04-valuation-analysis.md, calculate implied valuation"
+# Stage 3: Valuation analysis
+> "Using prompts/03-valuation-analysis.md, calculate implied valuation"
 
-# Stage 5: Generate report
-> "Using prompts/05-output-format.md, generate final report to output/reports/"
+# Stage 4: Generate report
+> "Using prompts/04-output-format.md, generate final report to output/reports/"
 ```
 
 ---
@@ -89,11 +89,11 @@ Comparable_Analysis_Example/
 │   └── market-data/
 ├── prompts/               # Analysis prompt templates
 │   ├── _base.md
+│   ├── _extract-financials.md  # Utility prompt for data extraction
 │   ├── 01-target-summary.md
-│   ├── 02-peer-selection.md
-│   ├── 03-data-extraction.md
-│   ├── 04-valuation-analysis.md
-│   ├── 05-output-format.md
+│   ├── 02-peer-selection.md    # Includes data extraction
+│   ├── 03-valuation-analysis.md
+│   ├── 04-output-format.md
 │   └── startup-comps-full.md
 ├── scripts/               # Utility scripts
 │   ├── check_document_size.py   # Check file sizes
@@ -108,11 +108,11 @@ Comparable_Analysis_Example/
 │   ├── README.md
 │   ├── getting-started.md
 │   ├── analysis-workflow.md  ← You are here
-│   ├── 01-dataroom-setup.md
-│   ├── 02-target-analysis.md
-│   ├── 03-peer-selection.md
-│   ├── 04-valuation.md
-│   └── 05-output-reports.md
+│   ├── 00-dataroom-setup.md
+│   ├── 01-target-analysis.md
+│   ├── 02-peer-selection.md  # Includes data extraction
+│   ├── 03-valuation.md
+│   └── 04-output-reports.md
 └── .claude/skills/        # Claude skills
     ├── financial-analysis/
     └── financial-modeling/
@@ -197,7 +197,7 @@ claude
 > "Read .working/nota/financials.txt and extract key financial metrics"
 ```
 
-See [Target Analysis - Handling Large Documents](02-target-analysis.md#handling-large-documents) for detailed strategies.
+See [Target Analysis - Handling Large Documents](01-target-analysis.md#handling-large-documents) for detailed strategies.
 
 ### "File not found" errors
 
@@ -239,5 +239,5 @@ uv pip install -e .
 ## Next Steps
 
 1. **New to the project?** → Start with [Getting Started](getting-started.md)
-2. **Ready to analyze?** → Begin with [Dataroom Setup](01-dataroom-setup.md)
-3. **Have source docs?** → Jump to [Target Analysis](02-target-analysis.md)
+2. **Ready to analyze?** → Begin with [Dataroom Setup](00-dataroom-setup.md)
+3. **Have source docs?** → Jump to [Target Analysis](01-target-analysis.md)

@@ -63,11 +63,11 @@ def compile_report(company: str, output_path: Path | None = None) -> str:
         sys.exit(1)
 
     # Read all analysis files
+    # Note: Peer selection (02) now includes financial data
     files = {
-        "summary": company_dir / "01-company-summary.md",
-        "peers": company_dir / "02-peer-selection.md",
-        "financials": company_dir / "03-financial-data.md",
-        "valuation": company_dir / "04-valuation-analysis.md",
+        "summary": company_dir / "01-target-summary.md",
+        "peers": company_dir / "02-peer-selection.md",  # Includes peer financial data
+        "valuation": company_dir / "03-valuation-analysis.md",
     }
 
     contents = {name: read_file_if_exists(path) for name, path in files.items()}
@@ -109,17 +109,12 @@ This report compiles the following analysis:
         report += "\n---\n\n"
 
     if contents["peers"]:
-        report += "## 2. Peer Group 분석\n\n"
+        report += "## 2. Peer Group 및 재무 데이터\n\n"
         report += extract_section(contents["peers"])
         report += "\n---\n\n"
 
-    if contents["financials"]:
-        report += "## 3. 재무 데이터\n\n"
-        report += extract_section(contents["financials"])
-        report += "\n---\n\n"
-
     if contents["valuation"]:
-        report += "## 4. 밸류에이션 분석\n\n"
+        report += "## 3. 밸류에이션 분석\n\n"
         report += extract_section(contents["valuation"])
         report += "\n---\n\n"
 

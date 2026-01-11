@@ -186,14 +186,14 @@ Analyze source documents and produce the following summary:
 **IMPORTANT:** Save the output to the correct location following the project structure:
 
 ```
-output/{company-name}/01-company-summary.md
+output/{company-name}/01-target-summary.md
 ```
 
 For example:
-- `output/nota/01-company-summary.md`
-- `output/target-company/01-company-summary.md`
+- `output/nota/01-target-summary.md`
+- `output/target-company/01-target-summary.md`
 
-> See `prompts/05-output-format.md` for full output directory structure.
+> See `prompts/04-output-format.md` for full output directory structure.
 
 ---
 
@@ -283,5 +283,4 @@ claude
 ## Next Steps
 
 After completing target summary, proceed to:
-- `02-peer-selection.md` - Select comparable companies
-- `03-data-extraction.md` - Extract detailed financial data
+- `02-peer-selection.md` - Select comparable companies and extract their financial data

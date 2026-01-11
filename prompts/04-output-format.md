@@ -14,12 +14,10 @@ Standardize output formats for all analysis deliverables to ensure consistency, 
 
 | Output Type | Format | Location |
 |-------------|--------|----------|
-| Company Summary | Markdown | `output/{company}/01-company-summary.md` |
-| Peer Selection | Markdown | `output/{company}/02-peer-selection.md` |
-| Financial Data | Markdown + CSV | `output/{company}/03-financial-data.md/csv` |
-| Valuation | Markdown | `output/{company}/04-valuation-analysis.md` |
-| Comps Table | CSV | `output/{company}/04-comps-table.csv` |
-| Sensitivity | CSV | `output/{company}/04-sensitivity.csv` |
+| Target Summary | Markdown | `output/{company}/01-target-summary.md` |
+| Peer Selection + Data | Markdown + CSV | `output/{company}/02-peer-selection.md`, `02-peer-data.csv` |
+| Valuation | Markdown + CSV | `output/{company}/03-valuation-analysis.md`, `03-comps-table.csv` |
+| Sensitivity | CSV | `output/{company}/03-sensitivity.csv` |
 | Final Report | Markdown | `output/reports/{company}-comps-report-{date}.md` |
 
 ---
@@ -29,13 +27,12 @@ Standardize output formats for all analysis deliverables to ensure consistency, 
 ```
 output/
 ├── {company-name}/
-│   ├── 01-company-summary.md
-│   ├── 02-peer-selection.md
-│   ├── 03-financial-data.md
-│   ├── 03-financial-data.csv
-│   ├── 04-valuation-analysis.md
-│   ├── 04-comps-table.csv
-│   └── 04-sensitivity.csv
+│   ├── 01-target-summary.md      # Target analysis
+│   ├── 02-peer-selection.md      # Peer group + financial data
+│   ├── 02-peer-data.csv          # Peer data export
+│   ├── 03-valuation-analysis.md  # Valuation
+│   ├── 03-comps-table.csv        # Trading multiples
+│   └── 03-sensitivity.csv        # Sensitivity data
 └── reports/
     └── {company-name}-comps-report-{YYYY-MM-DD}.md
 ```
@@ -84,24 +81,6 @@ output/
 | Business Model | SaaS - Subscription |
 ```
 
-### Section Formatting
-
-```markdown
-## 1. Section Title
-
-Brief introduction paragraph.
-
-### 1.1 Subsection
-
-Content here.
-
-#### Key Points
-- Bullet point 1
-- Bullet point 2
-
-> **Note:** Important callout or disclaimer.
-```
-
 ### Warning/Flag Formatting
 
 ```markdown
@@ -119,13 +98,13 @@ Content here.
 {company}-{content}-{YYYY-MM-DD}.csv
 
 Examples:
-- nota-financial-data-2024-01-15.csv
+- nota-peer-data-2024-01-15.csv
 - nota-comps-table-2024-01-15.csv
 - nota-sensitivity-2024-01-15.csv
 ```
 
 ### Column Headers
-- Use snake_case: `revenue_m`, `ev_ebitda`, `market_cap_m`
+- Use snake_case: `revenue_m`, `ev_ebitda_x`, `market_cap_m`
 - Include unit suffix: `_m` for millions, `_pct` for percentage, `_x` for multiples
 - First column should be identifier (company name or ticker)
 
@@ -138,12 +117,12 @@ Examples:
 ### Example CSV Structure
 
 ```csv
-# Financial Data Export
+# Peer Data Export
 # Currency: USD (millions)
 # Date: 2024-01-15
-company,ticker,fiscal_year_end,revenue_m,ebitda_m,ebit_m,net_income_m,cash_m,debt_m,market_cap_m,ev_m,source_file
-Target Co,XXXX,2023-12-31,500.00,75.00,60.00,45.00,100.00,150.00,1200.00,1250.00,10-K-2023.pdf
-Peer A,AAAA,2023-12-31,750.00,112.50,90.00,67.50,200.00,250.00,2000.00,2050.00,10-K-2023-PeerA.pdf
+company,ticker,revenue_m,ebitda_m,cash_m,debt_m,market_cap_m,ev_m,growth_pct,source
+Target Co,XXXX,500.00,75.00,100.00,150.00,1200.00,1250.00,25,10-K-2023.pdf
+Peer A,AAAA,750.00,112.50,200.00,250.00,2000.00,2050.00,18,stockanalysis.com
 ```
 
 ---
@@ -180,35 +159,29 @@ Peer A,AAAA,2023-12-31,750.00,112.50,90.00,67.50,200.00,250.00,2000.00,2050.00,1
 
 ## 1. 회사 개요
 
-[Company summary from 01-target-summary.md]
+[Content from 01-target-summary.md]
 
 ---
 
-## 2. Peer Group 분석
+## 2. Peer Group 및 재무 데이터
 
-[Peer selection from 02-peer-selection.md]
-
----
-
-## 3. 재무 데이터
-
-[Financial data from 03-data-extraction.md]
+[Content from 02-peer-selection.md]
 
 ---
 
-## 4. 밸류에이션 분석
+## 3. 밸류에이션 분석
 
-[Valuation analysis from 04-valuation-analysis.md]
+[Content from 03-valuation-analysis.md]
 
 ---
 
-## 5. 민감도 분석
+## 4. 민감도 분석
 
 [Sensitivity tables]
 
 ---
 
-## 6. 리스크 및 제한사항
+## 5. 리스크 및 제한사항
 
 ### 분석 제한사항
 - [Limitation 1]
@@ -228,10 +201,7 @@ Peer A,AAAA,2023-12-31,750.00,112.50,90.00,67.50,200.00,250.00,2000.00,2050.00,1
 | SEC Filings | SEC EDGAR | YYYY-MM-DD |
 | Market Data | [Source] | YYYY-MM-DD |
 
-### B. 방법론 노트
-[Methodology notes]
-
-### C. 용어 정의
+### B. 용어 정의
 | 용어 | 정의 |
 |------|------|
 | EV | Enterprise Value = Market Cap + Debt - Cash |
@@ -254,14 +224,9 @@ When referencing downloadable files in reports:
 
 ```markdown
 ### 첨부 파일
-- [재무 데이터 (CSV)](./financial-data.csv)
-- [Comps Table (CSV)](./comps-table.csv)
-- [민감도 분석 (CSV)](./sensitivity.csv)
-```
-
-If files are not available:
-```markdown
-> 📎 **파일 다운로드:** 파일 생성이 지원되지 않습니다. CSV 데이터는 위 표를 복사하여 사용하세요.
+- [Peer Data (CSV)](./02-peer-data.csv)
+- [Comps Table (CSV)](./03-comps-table.csv)
+- [민감도 분석 (CSV)](./03-sensitivity.csv)
 ```
 
 ---
@@ -296,5 +261,5 @@ Before finalizing output:
 
 ```bash
 claude
-> "Using prompts/05-output-format.md, compile all analysis outputs for {Company} into a final report. Save to output/reports/{company}-comps-report-{date}.md and export data tables as CSV."
+> "Using prompts/04-output-format.md, compile all analysis outputs for {Company} into a final report. Save to output/reports/{company}-comps-report-{date}.md and export data tables as CSV."
 ```

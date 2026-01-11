@@ -1,4 +1,4 @@
-# Peer Group Selection Prompt
+# Peer Group Selection & Financial Data Prompt
 
 **Base configuration:** See `prompts/_base.md` for role, language, data sources, and standards.
 
@@ -6,7 +6,13 @@
 
 ## Objective
 
-Identify and document a defensible peer group of 5-10 comparable companies for valuation benchmarking.
+Identify a defensible peer group of 5-10 comparable companies AND extract standardized financial data for valuation analysis.
+
+**This prompt combines two tasks:**
+1. **Peer Selection** - Identify comparable public companies
+2. **Data Extraction** - Gather financial metrics for comps table
+
+**Utility Reference:** Use `prompts/_extract-financials.md` for per-company data extraction methodology.
 
 ---
 
@@ -33,24 +39,26 @@ Before searching for peers, summarize the target:
 | **Revenue Growth** | [X]% YoY |
 | **Profitability** | [Profitable / Pre-profit] |
 | **Target Customers** | [e.g., Semiconductor, Enterprise] |
-| **Key Competitors (from summary)** | [List from 01-company-summary] |
+| **Key Competitors (from summary)** | [List from 01-target-summary] |
 
 ---
 
-## Research Methodology
+## Part 1: Peer Selection
 
-### Primary Sources for Peer Discovery
+### Research Methodology
 
-1. **From Target Summary**: Check competitors listed in `output/{company}/01-company-summary.md`
+#### Primary Sources for Peer Discovery
+
+1. **From Target Summary**: Check competitors listed in `output/{company}/01-target-summary.md`
 2. **Web Search**: Search for "[industry] public companies stock ticker"
 3. **Industry Reports**: Look for market reports mentioning key players
 4. **ETF Holdings**: Check holdings of relevant sector ETFs
 
-### Search Queries to Use
+#### Search Queries to Use
 
 ```
 # Find public peers
-"[industry] public companies stock ticker 2025"
+"[industry] public companies stock ticker 2026"
 "[competitor name] alternatives competitors public"
 "small cap [industry] stocks revenue"
 
@@ -58,31 +66,17 @@ Before searching for peers, summarize the target:
 "[company] [ticker] revenue 2024 market cap"
 ```
 
-### Free Data Sources
+#### Free Data Sources
 
 | Source | URL | Data Available |
 |--------|-----|----------------|
-| Yahoo Finance | finance.yahoo.com | Price, financials, key stats |
-| Stock Analysis | stockanalysis.com | Financials, metrics |
+| Stock Analysis | stockanalysis.com | Revenue, market cap, financials |
+| Yahoo Finance | finance.yahoo.com | Price, key stats, financials |
 | Simply Wall St | simplywall.st | Peer comparisons |
 | Finviz | finviz.com | Screener, charts |
+| SEC EDGAR | sec.gov/edgar | Official filings |
 
 ---
-
-## Selection Checklist
-
-Before finalizing peer group:
-- [ ] Target profile summarized
-- [ ] Industry/sector alignment verified
-- [ ] Business model similarity assessed
-- [ ] Size comparability considered (0.25x - 4x revenue)
-- [ ] Geographic relevance evaluated
-- [ ] Data availability confirmed
-- [ ] Exclusions documented with rationale
-
----
-
-## Section: Peer Group 선정 (Peer Selection)
 
 ### Step 1: Initial Universe
 
@@ -122,29 +116,52 @@ Numbers alone are not enough. Validate business similarity:
 | Peer A | High/Med/Low | High/Med/Low | High-growth/Mature |
 | Peer B | High/Med/Low | High/Med/Low | High-growth/Mature |
 
-### Step 4: Final Peer Selection
-
-| # | Company | Ticker:Exchange | Revenue ($M) | Market Cap ($M) | Growth | Selection Rationale |
-|---|---------|-----------------|--------------|-----------------|--------|---------------------|
-| 1 | | | | | | |
-| 2 | | | | | | |
-| 3 | | | | | | |
-| 4 | | | | | | |
-| 5 | | | | | | |
-| 6 | | | | | | |
-| 7 | | | | | | |
-
-### Step 5: Exclusions
-
-Document companies considered but excluded:
+### Step 4: Document Exclusions
 
 | Company | Ticker | Exclusion Reason |
 |---------|--------|------------------|
 | | | e.g., Acquired by larger company |
 | | | e.g., Private / Not listed |
 | | | e.g., Conglomerate with diversified revenue |
-| | | e.g., Revenue scale too different (>10x) |
-| | | e.g., Negative EBITDA distorts multiples |
+
+---
+
+## Part 2: Financial Data Extraction
+
+**For each selected peer, extract financial data using the methodology in `prompts/_extract-financials.md`.**
+
+### Required Metrics
+
+#### Per Company
+
+| Metric | Definition | Unit | Period |
+|--------|------------|------|--------|
+| Revenue | Total net revenue/sales | $M | LTM |
+| EBITDA | Operating Income + D&A | $M | LTM |
+| Net Income | Bottom line earnings | $M | LTM |
+| Cash | Cash & equivalents | $M | MRQ |
+| Total Debt | Short + Long-term debt | $M | MRQ |
+| Market Cap | Price × Shares | $M | Current |
+| Enterprise Value | MCap + Debt - Cash | $M | Calculated |
+
+### Data Collection Process
+
+For each peer company:
+
+1. **Search** for latest financial data
+2. **Extract** metrics using `_extract-financials.md` format
+3. **Validate** using self-correction checks
+4. **Document** sources
+
+### Validation Rules
+
+<thinking>
+For each company, verify:
+1. Is EBITDA > Revenue? (Impossible - check units)
+2. Is Net Income > EBITDA? (Unlikely unless one-time gain)
+3. Does EV = Market Cap + Debt - Cash?
+4. Are growth rates reasonable for the industry?
+</thinking>
 
 ---
 
@@ -159,22 +176,17 @@ Many emerging tech sectors have private competitors. Strategies:
 3. **Geographic expansion**: Include international peers from similar markets
 4. **Document the gap**: Note that direct comps are limited
 
-Example: "Most AI model optimization companies (Deci AI, Neural Magic) have been acquired or remain private. Using broader AI software/Edge AI peers."
+### For Pre-Profit Companies
 
-### For Early-Stage / Pre-Profit Companies
+| Metric | Handling |
+|--------|----------|
+| Negative EBITDA | Record value, flag "NM" for EV/EBITDA multiple |
+| Negative Net Income | Record value, exclude from P/E calculation |
 
-When target is pre-revenue or pre-profit:
+### Currency Conversion
 
-1. **Revenue multiples only**: Use EV/Revenue, not EV/EBITDA
-2. **Growth-adjusted**: Prioritize growth rate similarity over absolute size
-3. **Include other pre-profit peers**: Don't force profitability match
-4. **Consider private market comps**: Reference recent funding rounds as context
-
-### For Non-US Companies (e.g., KOSDAQ)
-
-1. **Include both local and global peers**: Mix of home market and international
-2. **Note liquidity differences**: Smaller markets may have valuation discounts
-3. **Currency alignment**: Note if revenue/valuation in different currencies
+- Convert all non-USD to USD
+- Document: "[Currency]/USD = [rate], [date]"
 
 ---
 
@@ -203,7 +215,6 @@ When target is pre-revenue or pre-profit:
 - Recent large M&A (distorted financials)
 - Pending delisting or restructuring
 - Revenue concentration >50% in different segment
-- Regulatory overhang or major litigation
 
 ---
 
@@ -212,7 +223,7 @@ When target is pre-revenue or pre-profit:
 Save to: `output/{company-name}/02-peer-selection.md`
 
 ```markdown
-# Peer Group 선정 - {Company Name}
+# Peer Group 선정 및 재무 데이터 - {Company Name}
 
 **Target:** {Company Name}
 **선정일:** YYYY-MM-DD
@@ -242,20 +253,24 @@ Save to: `output/{company-name}/02-peer-selection.md`
 
 ---
 
-## 3. Qualitative Validation
+## 3. 최종 Peer Group 및 재무 데이터
 
-| Company | Feature Overlap | Customer Similarity | Growth Stage |
-|---------|-----------------|---------------------|--------------|
-| | | | |
+| # | Company | Ticker | Revenue ($M) | EBITDA ($M) | Cash ($M) | Debt ($M) | MCap ($M) | EV ($M) | Growth |
+|---|---------|--------|-------------:|------------:|----------:|----------:|----------:|--------:|-------:|
+| 0 | **Target** | XXX | | | | | | | |
+| 1 | Peer 1 | AAA | | | | | | | |
+| 2 | Peer 2 | BBB | | | | | | | |
+| ... | | | | | | | | | |
 
 ---
 
-## 4. 최종 Peer Group
+## 4. Peer Group 특성 요약
 
-| # | 회사명 | 티커 | 매출 ($M) | 시총 ($M) | 성장률 | 선정 근거 |
-|---|--------|------|-----------|-----------|--------|-----------|
-| 1 | | | | | | |
-...
+| Metric | Mean | Median | Min | Max |
+|--------|------|--------|-----|-----|
+| Revenue ($M) | | | | |
+| Growth (%) | | | | |
+| Market Cap ($M) | | | | |
 
 ---
 
@@ -267,18 +282,40 @@ Save to: `output/{company-name}/02-peer-selection.md`
 
 ---
 
-## 6. Peer Group 특성 요약
+## 6. 데이터 출처
 
-- **산업:**
-- **평균 매출:** $[X]M
-- **매출 범위:** $[Min]M - $[Max]M
-- **평균 성장률:** [X]%
+| Company | Primary Source | Date |
+|---------|----------------|------|
+| | | |
 
 ---
 
 **선정 기준일:** YYYY-MM-DD
-**데이터 출처:** [Sources with URLs]
 ```
+
+---
+
+## CSV Export
+
+Also save to: `output/{company-name}/02-peer-data.csv`
+
+```csv
+company,ticker,revenue_m,ebitda_m,net_income_m,cash_m,debt_m,market_cap_m,ev_m,growth_pct,source
+Target,XXX,100,15,10,50,20,500,470,25,10-K
+Peer1,AAA,150,22,15,80,30,750,700,18,stockanalysis.com
+```
+
+---
+
+## Validation Checklist
+
+Before proceeding to valuation:
+- [ ] 5-10 peers selected with rationale
+- [ ] All peers have financial data extracted
+- [ ] EV calculated correctly for each company
+- [ ] Pre-profit companies flagged
+- [ ] Sources documented
+- [ ] CSV exported
 
 ---
 
@@ -286,13 +323,12 @@ Save to: `output/{company-name}/02-peer-selection.md`
 
 ```bash
 claude
-> "Using prompts/02-peer-selection.md, identify comparable companies for Nota based on output/nota/01-company-summary.md"
+> "Using prompts/02-peer-selection.md, identify comparable companies for Nota and extract their financial data. Save to output/nota/02-peer-selection.md and export CSV."
 ```
 
 ---
 
 ## Next Steps
 
-After completing peer selection, proceed to:
-- `03-data-extraction.md` - Extract financial data for all peers
-- `04-valuation-analysis.md` - Calculate trading multiples
+After completing peer selection and data extraction, proceed to:
+- `03-valuation-analysis.md` - Calculate trading multiples and implied valuation

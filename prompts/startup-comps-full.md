@@ -28,10 +28,9 @@ Before starting, confirm the following checklist:
 | Stage | Module | Output |
 |-------|--------|--------|
 | 1 | `01-target-summary.md` | 회사 요약 |
-| 2 | `02-peer-selection.md` | Peer Group 선정 |
-| 3 | `03-data-extraction.md` | 재무 데이터 수집 |
-| 4 | `04-valuation-analysis.md` | 밸류에이션 분석 |
-| 5 | `05-output-format.md` | 최종 보고서 |
+| 2 | `02-peer-selection.md` | Peer Group 선정 + 재무 데이터 |
+| 3 | `03-valuation-analysis.md` | 밸류에이션 분석 |
+| 4 | `04-output-format.md` | 최종 보고서 |
 
 ---
 
@@ -58,9 +57,11 @@ Before starting, confirm the following checklist:
 
 ---
 
-## Section II. Peer Group 선정 (Peer Selection)
+## Section II. Peer Group 선정 및 데이터 수집 (Peer Selection & Data Extraction)
 
 **Reference:** `prompts/02-peer-selection.md`
+
+### Part A: Peer Selection
 
 Identify a peer group through screening:
 
@@ -77,17 +78,9 @@ Identify a peer group through screening:
 - Document exclusions with rationale
 - Flag any companies with limited data availability
 
-**Validation:** Confirm peer group covers appropriate range of size, growth, and profitability.
+### Part B: Financial Data Extraction
 
----
-
-## Section III. 데이터 수집 (Data Collection)
-
-**Reference:** `prompts/03-data-extraction.md`
-
-Before each data extraction, state the source and any limitations.
-
-### Required Metrics
+For each peer company, extract:
 
 | Metric | Definition | Source |
 |--------|------------|--------|
@@ -100,21 +93,20 @@ Before each data extraction, state the source and any limitations.
 | Total Debt | Short + Long term debt | Balance sheet |
 | EV | Market Cap + Debt - Cash | Calculated |
 
-### Formatting Requirements
-
+**Formatting Requirements:**
 - Currency: State currency and use millions format (2 decimals)
 - Period: State fiscal period (FY, LTM, Q#)
 - Missing data: Flag as "Invalid data - skipped"
 
-**Validation:** Cross-check calculations (EV = MC + Debt - Cash).
+**Validation:** Confirm peer group covers appropriate range of size, growth, and profitability. Cross-check EV = MC + Debt - Cash.
 
 ---
 
-## Section IV. 밸류에이션 분석 (Valuation Report)
+## Section III. 밸류에이션 분석 (Valuation Report)
 
-**Reference:** `prompts/04-valuation-analysis.md`
+**Reference:** `prompts/03-valuation-analysis.md`
 
-### 4.1 Trading Multiples Table
+### 3.1 Trading Multiples Table
 
 | Company | Revenue ($M) | EBITDA ($M) | Market Cap ($M) | EV ($M) | EV/Revenue | EV/EBITDA | P/E |
 |---------|-------------|-------------|-----------------|---------|------------|-----------|-----|
@@ -124,7 +116,7 @@ Before each data extraction, state the source and any limitations.
 | **High** | | | | | | | |
 | **Low** | | | | | | | |
 
-### 4.2 Target Valuation
+### 3.2 Target Valuation
 
 Calculate implied value using peer median multiples:
 
@@ -136,7 +128,7 @@ Calculate implied value using peer median multiples:
 
 Show formulas, input values, and cite all data sources/dates.
 
-### 4.3 Sensitivity Table
+### 3.3 Sensitivity Table
 
 | Variable | Scenario | Value |
 |----------|----------|-------|
@@ -147,7 +139,7 @@ Show formulas, input values, and cite all data sources/dates.
 | EBITDA Multiple | Mid | |
 | EBITDA Multiple | High | |
 
-### 4.4 Valuation Range Summary
+### 3.4 Valuation Range Summary
 
 | Method | Low | Mid | High |
 |--------|-----|-----|------|
@@ -186,7 +178,7 @@ Show formulas, input values, and cite all data sources/dates.
 
 ## Final Output Checklist
 
-**Reference:** `prompts/05-output-format.md`
+**Reference:** `prompts/04-output-format.md`
 
 ### Required Deliverables
 
@@ -241,7 +233,7 @@ Run individual modules as needed:
 > "Using prompts/02-peer-selection.md, identify peers for a B2B SaaS company with $50M ARR"
 
 # Valuation only (with existing data)
-> "Using prompts/04-valuation-analysis.md, calculate implied valuation using the data in output/peer-financials.csv"
+> "Using prompts/03-valuation-analysis.md, calculate implied valuation using the data in output/peer-financials.csv"
 ```
 
 ---
@@ -249,10 +241,9 @@ Run individual modules as needed:
 ## Status Updates
 
 Provide brief status updates at major milestones:
-1. After Section I: "회사 요약 완료. 다음: Peer Group 선정"
-2. After Section II: "Peer Group 선정 완료 (N개 기업). 다음: 데이터 수집"
-3. After Section III: "데이터 수집 완료. 다음: 밸류에이션 분석"
-4. After Section IV: "밸류에이션 분석 완료. 최종 보고서 생성 중..."
-5. Final: "분석 완료. 보고서: output/reports/{filename}.md"
+1. After Section I: "회사 요약 완료. 다음: Peer Group 선정 및 데이터 수집"
+2. After Section II: "Peer Group 선정 및 데이터 수집 완료 (N개 기업). 다음: 밸류에이션 분석"
+3. After Section III: "밸류에이션 분석 완료. 최종 보고서 생성 중..."
+4. Final: "분석 완료. 보고서: output/reports/{filename}.md"
 
 Note any blockers or missing data requiring user input.
