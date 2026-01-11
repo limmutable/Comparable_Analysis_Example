@@ -5,6 +5,7 @@ This guide walks you through setting up your development environment for the Com
 ## Prerequisites
 
 - macOS or Windows with WSL (Windows Subsystem for Linux)
+- [Homebrew](https://brew.sh/) (for macOS/Linux users)
 - Terminal/command line access (see [instructions below](#step-0-environment-setup))
 - A [GitHub](https://github.com/) account
 - An Anthropic API key (for Claude)
@@ -53,17 +54,68 @@ WSL (Windows Subsystem for Linux) lets you run a Linux environment directly on W
 - Press `Enter` to open the Terminal application.
 
 
-## Step 1: Install Claude CLI
+## Step 0.1: Install Homebrew (macOS/Linux)
 
-Claude Code is a command-line tool that brings Claude's AI capabilities to your terminal.
+Homebrew is a package manager that simplifies installing software like Node.js and the Gemini CLI.
 
-### 1.1 Install Node.js (if not already installed)
+1. **Check if you have it installed**:
+   ```bash
+   brew --version
+   ```
 
-Claude CLI requires Node.js 18 or higher.
+2. **If not installed, paste this into your terminal**:
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+   Follow the on-screen instructions (you may need to enter your password).
+
+
+## Step 1: Install Gemini CLI (Primary)
+
+Gemini CLI provides access to Google's Gemini models from the terminal. This is the primary tool we will use.
+
+### 1.1 Install Gemini CLI
+
+You can install it using Homebrew (recommended) or npm:
+
+**Option 1: Homebrew (macOS/Linux)**
+```bash
+brew install gemini-cli
+```
+
+**Option 2: npm (All Platforms)**
+```bash
+npm install -g gemini-chat-cli
+```
+
+### 1.2 Authenticate Gemini CLI
 
 ```bash
-# Check if Node.js is installed
+gemini auth login
+```
+
+Follow the prompts to authenticate with your Google account or API key.
+
+### 1.3 Verify Installation
+
+```bash
+gemini --version
+```
+
+---
+
+## Step 2: Install Claude CLI (Advanced/Optional)
+
+Claude Code is an advanced command-line tool. It is optional but recommended for complex financial modeling tasks.
+
+### 2.1 Install Node.js (if not already installed)
+
+Claude CLI requires Node.js 18 or higher (which includes `npm`).
+
+```bash
+# Check if Node.js and npm are installed
 node --version
+npm --version
 
 # If not installed, use Homebrew (macOS)
 brew install node
@@ -71,13 +123,13 @@ brew install node
 # Or download from https://nodejs.org/
 ```
 
-### 1.2 Install Claude CLI
+### 2.2 Install Claude CLI
 
 ```bash
 npm install -g @anthropic-ai/claude-code
 ```
 
-### 1.3 Authenticate Claude CLI
+### 2.3 Authenticate Claude CLI
 
 ```bash
 claude
@@ -87,42 +139,10 @@ On first run, you'll be prompted to authenticate. You can either:
 - Log in with your Anthropic Console account, or
 - Enter your API key directly
 
-### 1.4 Verify Installation
+### 2.4 Verify Installation
 
 ```bash
 claude --version
-```
-
----
-
-## Step 2: Install Gemini CLI
-
-Gemini CLI provides access to Google's Gemini models from the terminal.
-
-### 2.1 Install Gemini CLI
-
-```bash
-npm install -g @anthropic-ai/claude-code
-```
-
-Or using Homebrew:
-
-```bash
-brew install gemini-cli
-```
-
-### 2.2 Authenticate Gemini CLI
-
-```bash
-gemini auth login
-```
-
-Follow the prompts to authenticate with your Google account or API key.
-
-### 2.3 Verify Installation
-
-```bash
-gemini --version
 ```
 
 ---
@@ -136,7 +156,7 @@ gemini --version
 cd ~/Projects
 
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/Comparable_Analysis_Example.git
+git clone https://github.com/limmutable/Comparable_Analysis_Example.git
 
 # Enter the project directory
 cd Comparable_Analysis_Example
@@ -161,109 +181,25 @@ src/              # Internal source code
 
 ---
 
-## Step 4: Setup Claude Skills
 
-Claude Skills are automatically loaded when you run Claude CLI in this project directory. The project includes two pre-configured skills for financial analysis.
 
-### 4.1 Verify Skills Are Installed
-
-Navigate to the project directory and check the skills folder:
-
-```bash
-cd ~/Projects/Comparable_Analysis_Example
-ls -la .claude/skills/
-```
-
-You should see:
-```
-financial-modeling/
-financial-analysis/
-```
-
-### 4.2 Understanding the Skills
-
-| Skill | Description |
-|-------|-------------|
-| `financial-modeling` | Build financial models, forecasts, and DCF valuations |
-| `financial-analysis` | Comparable company analysis, financial statement analysis, trading multiples |
-
-### 4.3 How Skills Work
-
-Skills are automatically activated based on your request. When you ask Claude to perform a task related to financial modeling or analysis, it will use the appropriate skill.
-
-**Example prompts that activate skills:**
-
-```bash
-# Start Claude in the project directory
-cd ~/Projects/Comparable_Analysis_Example
-claude
-
-# These prompts will activate the financial-analysis skill:
-> "Analyze the SEC filing in the dataroom"
-> "Create a comparable company analysis for tech companies"
-> "Calculate valuation multiples for these companies"
-
-# These prompts will activate the financial-modeling skill:
-> "Build a DCF model with these assumptions"
-> "Create a 5-year revenue forecast"
-> "Project cash flows for this company"
-```
-
-### 4.4 Viewing Skill Details
-
-To see what a skill contains:
-
-```bash
-cat .claude/skills/financial-analysis/SKILL.md
-cat .claude/skills/financial-modeling/SKILL.md
-```
-
-### 4.5 Creating Your Own Skills (Optional)
-
-To create a custom skill:
-
-1. Create a new directory in `.claude/skills/`:
-   ```bash
-   mkdir -p .claude/skills/my-custom-skill
-   ```
-
-2. Create a `SKILL.md` file with YAML frontmatter:
-   ```bash
-   cat > .claude/skills/my-custom-skill/SKILL.md << 'EOF'
-   ---
-   name: my-custom-skill
-   description: Describe when this skill should be used.
-   allowed-tools: Read, Write, Edit, Bash
-   ---
-
-   # My Custom Skill
-
-   ## Instructions
-   Add your instructions here...
-   EOF
-   ```
-
-3. The skill will be automatically available next time you run Claude in this directory.
-
----
-
-## Step 5: Verify Your Setup
+## Step 4: Verify Your Setup
 
 Run the following commands to verify everything is working:
 
 ```bash
-# 1. Check Claude CLI
-claude --version
-
-# 2. Check Gemini CLI
+# 1. Check Gemini CLI
 gemini --version
+
+# 2. Check Claude CLI
+claude --version
 
 # 3. Navigate to project
 cd ~/Projects/Comparable_Analysis_Example
 
-# 4. Start Claude and test a skill
-claude
-> "What skills are available in this project?"
+# 4. Start Gemini and test
+gemini
+> "Hello, are you ready for financial analysis?"
 ```
 
 ---
