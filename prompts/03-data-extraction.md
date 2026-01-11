@@ -20,6 +20,46 @@ Extract standardized financial data from source documents for the target company
 
 ---
 
+## Data Collection Methodology
+
+### Web Search Queries
+
+Use these search patterns to gather peer financial data:
+
+```
+# Revenue and financials
+"[company name] [ticker] revenue 2024 financial results"
+"[company name] Q4 2024 earnings"
+
+# Market data
+"[company name] market cap enterprise value"
+"[ticker] stock statistics valuation"
+
+# Industry multiples
+"[industry] EV/Revenue multiple 2025"
+"AI software stocks valuation comparison"
+```
+
+### Free Data Sources
+
+| Source | URL | Data Available |
+|--------|-----|----------------|
+| Stock Analysis | stockanalysis.com | Revenue, market cap, statistics |
+| Yahoo Finance | finance.yahoo.com | Price, key stats, financials |
+| Companies Market Cap | companiesmarketcap.com | Market cap, revenue trends |
+| Simply Wall St | simplywall.st | Valuation, peer comparison |
+| Company IR | ir.[company].com | Earnings releases, 10-K/10-Q |
+| SEC EDGAR | sec.gov/edgar | Official filings (US companies) |
+
+### Search Strategy
+
+1. **Start with Stock Analysis** - Most comprehensive free data
+2. **Verify with Yahoo Finance** - Cross-check market cap and price
+3. **Check Company IR** - For latest earnings releases
+4. **Use WebSearch** - When data is stale or missing
+
+---
+
 ## Extraction Checklist
 
 Before extracting data:

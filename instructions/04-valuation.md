@@ -24,12 +24,59 @@ This stage involves:
 
 ```bash
 claude
+# Use the financial-analysis skill for comprehensive valuation
+> "Use the financial-analysis skill to perform valuation analysis for Nota using the peer group from output/nota/02-peer-selection.md"
+
+# Or step by step:
 # Extract peer data
 > "Using prompts/03-data-extraction.md, extract financial data for all companies in the peer group"
 
 # Run valuation
 > "Using prompts/04-valuation-analysis.md, calculate trading multiples and implied valuation for the target"
 ```
+
+---
+
+## Data Collection Methodology
+
+### Web Search for Peer Financials
+
+For each peer company, use these search queries:
+
+```
+"[company name] [ticker] revenue 2024 financial results"
+"[company name] market cap enterprise value"
+"[company name] Q4 2024 earnings"
+```
+
+### Free Data Sources
+
+| Source | URL | Best For |
+|--------|-----|----------|
+| Stock Analysis | stockanalysis.com | Revenue, market cap, multiples |
+| Yahoo Finance | finance.yahoo.com | Current price, key statistics |
+| Company IR | ir.[company].com | Latest earnings releases |
+| Simply Wall St | simplywall.st | Peer comparisons |
+
+### Pre-Profit Company Handling
+
+For companies with negative EBITDA (common in AI/tech):
+
+| Target Status | Use | Avoid |
+|---------------|-----|-------|
+| Pre-profit, high growth | EV/Revenue | EV/EBITDA, P/E |
+| Pre-profit, low growth | EV/Revenue (low multiple) | All profit-based |
+| Profitable | All methods | None |
+
+**Growth-Multiple Relationship:**
+
+| Growth Rate | Typical EV/Revenue |
+|-------------|-------------------|
+| <10% | 1.0x - 3.0x |
+| 10-30% | 2.0x - 5.0x |
+| 30-50% | 4.0x - 8.0x |
+| 50-100% | 6.0x - 15.0x |
+| >100% | 10.0x - 30.0x+ |
 
 ---
 

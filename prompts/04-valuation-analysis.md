@@ -14,9 +14,43 @@ Calculate trading multiples for the peer group and derive an implied valuation r
 
 | Required | Source |
 |----------|--------|
-| Financial data | Output from `03-data-extraction.md` |
+| Financial data | Output from `03-data-extraction.md` or `03-financial-data.md` |
 | Target company financials | From target summary or data extraction |
 | Peer group list | Output from `02-peer-selection.md` |
+
+---
+
+## Pre-Profit Company Guidance
+
+For companies with negative EBITDA/Net Income (like many AI/tech growth companies):
+
+### Method Selection
+
+| Target Status | Primary Method | Avoid |
+|---------------|----------------|-------|
+| Pre-profit, high growth | EV/Revenue | EV/EBITDA, P/E |
+| Pre-profit, low growth | EV/Revenue (low multiple) | All profit-based |
+| Early profitable | EV/Revenue + EV/EBITDA | P/E if volatile |
+| Mature profitable | All methods | None |
+
+### Growth-Adjusted Multiples
+
+| Growth Rate | Typical EV/Revenue |
+|-------------|-------------------|
+| <10% | 1.0x - 3.0x |
+| 10-30% | 2.0x - 5.0x |
+| 30-50% | 4.0x - 8.0x |
+| 50-100% | 6.0x - 15.0x |
+| >100% | 10.0x - 30.0x+ |
+
+### Outlier Handling
+
+| Situation | Action |
+|-----------|--------|
+| EV/Revenue > 2x median | Flag as outlier, calculate median without |
+| EV/Revenue < 0.5x median | Flag as potential value trap |
+| Negative EBITDA peer | Include in EV/Revenue, exclude from EV/EBITDA |
+| Single extreme outlier | Report both with/without |
 
 ---
 
@@ -27,6 +61,7 @@ Before calculating:
 - [ ] Negative values flagged for exclusion where appropriate
 - [ ] Outliers identified for potential exclusion
 - [ ] Calculation formulas documented
+- [ ] Pre-profit status identified and appropriate method selected
 
 ---
 
