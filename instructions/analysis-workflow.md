@@ -56,8 +56,10 @@ dataroom/
 │   │   └── 10-K-2024.pdf
 │   └── company-c/
 │       └── 10-K-2024.pdf
-└── market-data/
-    └── trading-comps.csv
+└── market-data/          # Industry reports, Beta, Risk-free rate
+    ├── trading-comps.csv
+    ├── industry-report-2024.pdf
+    └── market-statistics.xlsx
 ```
 
 ### 1.3 File Naming Conventions
