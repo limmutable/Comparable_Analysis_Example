@@ -9,7 +9,8 @@
       "Bash(uv run:*)",
       "Bash(python scripts/check_document_size.py:*)",
       "Bash(python scripts/extract_sections.py:*)",
-      "Bash(make:*)"
+      "Bash(make:*)",
+      "Skill(doc-prepare)"
     ]
   }
 }

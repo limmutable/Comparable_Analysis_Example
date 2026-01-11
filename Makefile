@@ -122,6 +122,41 @@ extract-pages:
 	fi
 
 #---------------------------------------------------------------------------
+# Document Preparation (for Gemini CLI)
+#---------------------------------------------------------------------------
+
+## Check a company's documents: make prep-check COMPANY=nota
+prep-check:
+	@if [ -z "$(COMPANY)" ]; then \
+		echo "$(RED)Error: COMPANY required$(RESET)"; \
+		echo "Usage: make prep-check COMPANY=nota"; \
+		exit 1; \
+	fi
+	@uv run python scripts/prep_documents.py check $(COMPANY)
+
+## Prepare documents for analysis: make prep COMPANY=nota
+prep:
+	@if [ -z "$(COMPANY)" ]; then \
+		echo "$(RED)Error: COMPANY required$(RESET)"; \
+		echo "Usage: make prep COMPANY=nota"; \
+		exit 1; \
+	fi
+	@uv run python scripts/prep_documents.py prep $(COMPANY)
+
+## Force re-extraction: make prep-force COMPANY=nota
+prep-force:
+	@if [ -z "$(COMPANY)" ]; then \
+		echo "$(RED)Error: COMPANY required$(RESET)"; \
+		echo "Usage: make prep-force COMPANY=nota"; \
+		exit 1; \
+	fi
+	@uv run python scripts/prep_documents.py prep $(COMPANY) --force
+
+## Show status of all companies
+prep-status:
+	@uv run python scripts/prep_documents.py status
+
+#---------------------------------------------------------------------------
 # Development
 #---------------------------------------------------------------------------
 
@@ -187,6 +222,15 @@ help:
 	@echo "                    - Get PDF page count and info"
 	@echo "  make extract-pages FILE=path PAGES=80-120 [OUT=.working/...]"
 	@echo "                    - Extract pages from PDF to .working/ (default)"
+	@echo ""
+	@echo "$(GREEN)Document Preparation (for Gemini):$(RESET)"
+	@echo "  make prep-status  - Show status of all companies"
+	@echo "  make prep-check COMPANY=nota"
+	@echo "                    - Check company's documents"
+	@echo "  make prep COMPANY=nota"
+	@echo "                    - Prepare company for analysis (auto-extract)"
+	@echo "  make prep-force COMPANY=nota"
+	@echo "                    - Force re-extraction"
 	@echo ""
 	@echo "$(GREEN)Development:$(RESET)"
 	@echo "  make test         - Run tests"
