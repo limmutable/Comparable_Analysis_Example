@@ -36,23 +36,19 @@ Create a logical folder structure within `/dataroom`:
 ```
 dataroom/
 ├── target-company/
-│   ├── sec-filings/
+│   ├── sec-filings/        # For public companies (10-K, 10-Q)
 │   │   ├── 10-K-2024.pdf
-│   │   ├── 10-K-2023.pdf
 │   │   └── 10-Q-Q3-2024.pdf
-│   ├── earnings/
-│   │   └── Q3-2024-earnings.pdf
-│   └── presentations/
-│       └── investor-day-2024.pdf
-├── private-target/
-│   ├── financials/
+│   ├── financials/         # For private companies (Excel, PDF)
 │   │   ├── unaudited-2023.xlsx
 │   │   └── projections-2024-2028.xlsx
-│   ├── presentations/
-│   │   ├── intro-deck-2024.pdf
-│   │   └── management-presentation.pdf
-│   └── corporate/
-│       └── cap-table.xlsx
+│   ├── presentations/      # Investor decks, CIMs, Pitch decks
+│   │   ├── investor-day-2024.pdf
+│   │   └── intro-deck-2024.pdf
+│   ├── corporate/          # Cap tables, Org charts
+│   │   └── cap-table.xlsx
+│   └── earnings/           # For public companies
+│       └── Q3-2024-earnings.pdf
 ├── peer-companies/
 │   ├── company-a/
 │   │   └── 10-K-2024.pdf
