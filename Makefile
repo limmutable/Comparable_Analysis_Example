@@ -3,8 +3,9 @@
 # Usage:
 #   make setup  - Install uv and project dependencies
 #   make test   - Run tests
+#   make clean  - Clean up cache files
 
-.PHONY: setup test help
+.PHONY: setup test clean help
 
 .DEFAULT_GOAL := help
 
@@ -31,6 +32,12 @@ setup:
 test:
 	@uv run pytest tests/ -v
 
+## Clean up cache files
+clean:
+	@rm -rf __pycache__ .pytest_cache .ruff_cache
+	@find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+	@echo "Cleaned up cache files"
+
 ## Show help
 help:
 	@echo ""
@@ -39,4 +46,5 @@ help:
 	@echo ""
 	@echo "  make setup  - Install uv, create venv, install dependencies"
 	@echo "  make test   - Run tests"
+	@echo "  make clean  - Clean up cache files"
 	@echo ""
