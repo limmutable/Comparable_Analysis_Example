@@ -11,7 +11,8 @@
       "Bash(python scripts/extract_sections.py:*)",
       "Bash(make:*)",
       "Skill(pdf-parser)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(git check-ignore:*)"
     ]
   }
 }

@@ -18,7 +18,48 @@ Select 5-10 comparable public companies that can serve as valuation benchmarks f
 
 ```bash
 claude
-> "Using prompts/02-peer-selection.md, identify 5-7 comparable companies for a B2B SaaS company with $50M ARR in the cybersecurity space"
+> "Using prompts/02-peer-selection.md, identify comparable companies for Nota based on output/nota/01-company-summary.md"
+```
+
+---
+
+## Step 0: Target Profile Summary
+
+Before searching for peers, summarize the target company:
+
+| Attribute | Value |
+|-----------|-------|
+| **Industry** | e.g., AI Software / Edge AI |
+| **Business Model** | e.g., B2B Platform Licensing |
+| **Revenue (Latest FY)** | $X M |
+| **Revenue Growth** | X% YoY |
+| **Profitability** | Profitable / Pre-profit |
+| **Target Customers** | e.g., Semiconductor, Enterprise |
+| **Key Competitors** | From 01-company-summary.md |
+
+---
+
+## Research Methodology
+
+### Free Data Sources
+
+| Source | URL | Data Available |
+|--------|-----|----------------|
+| Yahoo Finance | finance.yahoo.com | Price, financials, key stats |
+| Stock Analysis | stockanalysis.com | Financials, metrics |
+| Simply Wall St | simplywall.st | Peer comparisons |
+| Finviz | finviz.com | Screener, charts |
+
+### Useful Search Queries
+
+```
+# Find public peers
+"[industry] public companies stock ticker 2026"
+"[competitor name] alternatives competitors public"
+"small cap [industry] stocks revenue"
+
+# Validate financials
+"[company] [ticker] revenue 2024 market cap"
 ```
 
 ---
@@ -33,7 +74,7 @@ Start with broad screening criteria:
 |--------|----------|---------|
 | Industry | GICS sub-industry or sector | "Application Software" |
 | Geography | Primary market | "North America" |
-| Revenue Range | 0.5× to 2× target | "$25M - $100M" |
+| Revenue Range | 0.25× to 4× target | "$25M - $200M" |
 | Listing Status | Public companies | NYSE, NASDAQ, KOSPI |
 
 ### Step 2: Apply Screening Filters
@@ -69,12 +110,12 @@ Numbers alone aren't enough. Validate business similarity:
 
 ### Step 4: Final Selection
 
-| # | Company | Ticker | Revenue ($M) | Selection Rationale |
-|---|---------|--------|--------------|---------------------|
-| 1 | | | | Direct competitor, similar size |
-| 2 | | | | Same vertical, adjacent product |
-| 3 | | | | Similar business model |
-| ... | | | | |
+| # | Company | Ticker:Exchange | Revenue ($M) | Market Cap ($M) | Growth | Selection Rationale |
+|---|---------|-----------------|--------------|-----------------|--------|---------------------|
+| 1 | | | | | | Direct competitor, similar size |
+| 2 | | | | | | Same vertical, adjacent product |
+| 3 | | | | | | Similar business model |
+| ... | | | | | | |
 
 ### Step 5: Document Exclusions
 
@@ -95,7 +136,7 @@ Numbers alone aren't enough. Validate business similarity:
 |-----------|-------------|--------|
 | **Industry** | Same GICS sub-industry or direct competitor | High |
 | **Business Model** | Similar revenue model (SaaS, transactional) | High |
-| **Revenue Stage** | Within 0.5× - 2.0× of target revenue | Medium |
+| **Revenue Stage** | Within 0.25× - 4.0× of target revenue | Medium |
 
 ### Secondary Criteria (Should Match)
 
@@ -113,6 +154,36 @@ Numbers alone aren't enough. Validate business similarity:
 - Pending delisting → Price unreliable
 - Revenue concentration >50% in different segment
 - Regulatory overhang or major litigation
+
+---
+
+## Handling Special Cases
+
+### When Direct Competitors Are Private
+
+Many emerging tech sectors have private competitors. Strategies:
+
+1. **Look broader**: Expand to adjacent industries with similar business models
+2. **Use larger public companies**: Include bigger players (with size adjustment notes)
+3. **Geographic expansion**: Include international peers from similar markets
+4. **Document the gap**: Note that direct comps are limited
+
+Example: "Most AI model optimization companies (Deci AI, Neural Magic) have been acquired or remain private. Using broader AI software/Edge AI peers."
+
+### For Early-Stage / Pre-Profit Companies
+
+When target is pre-revenue or pre-profit:
+
+1. **Revenue multiples only**: Use EV/Revenue, not EV/EBITDA
+2. **Growth-adjusted**: Prioritize growth rate similarity over absolute size
+3. **Include other pre-profit peers**: Don't force profitability match
+4. **Consider private market comps**: Reference recent funding rounds as context
+
+### For Non-US Companies (e.g., KOSDAQ)
+
+1. **Include both local and global peers**: Mix of home market and international
+2. **Note liquidity differences**: Smaller markets may have valuation discounts
+3. **Currency alignment**: Note if revenue/valuation in different currencies
 
 ---
 
@@ -164,10 +235,10 @@ Save peer selection to `output/{company-name}/02-peer-selection.md`:
 
 ## 2. 최종 Peer Group
 
-| # | 회사명 | 티커 | 매출 ($M) | 선정 근거 |
-|---|--------|------|-----------|-----------|
-| 1 | | | | |
-| 2 | | | | |
+| # | 회사명 | 티커:거래소 | 매출 ($M) | 시총 ($M) | 성장률 | 선정 근거 |
+|---|--------|-------------|-----------|-----------|--------|-----------|
+| 1 | | | | | | |
+| 2 | | | | | | |
 ...
 
 ## 3. 제외 기업
@@ -181,7 +252,9 @@ Save peer selection to `output/{company-name}/02-peer-selection.md`:
 - **산업:** [Industry]
 - **평균 매출:** $XXX M
 - **매출 범위:** $XX M - $XXX M
+- **평균 시가총액:** $X,XXX M
 - **평균 성장률:** XX%
+- **수익성:** X/Y 기업 Pre-profit
 ```
 
 ---
@@ -190,12 +263,16 @@ Save peer selection to `output/{company-name}/02-peer-selection.md`:
 
 Before proceeding to valuation:
 
+- [ ] Target profile summarized
 - [ ] 5-10 peers selected
 - [ ] All peers have recent public filings
-- [ ] Selection rationale documented
+- [ ] Industry/sector alignment verified
+- [ ] Business model similarity assessed
+- [ ] Size comparability considered (0.25x - 4x revenue)
+- [ ] Selection rationale documented for each peer
 - [ ] Exclusions documented with reasons
-- [ ] No peers with negative EBITDA (or flagged for exclusion from EV/EBITDA)
-- [ ] Industry alignment verified
+- [ ] Data availability confirmed (financials accessible)
+- [ ] No peers with negative EBITDA (or flagged for EV/Revenue only)
 
 ---
 
