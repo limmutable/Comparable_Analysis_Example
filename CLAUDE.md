@@ -8,12 +8,13 @@ This is an educational project demonstrating how to automate comparable financia
 
 ## Directory Structure
 
-- `/instructions` - Educational materials, instructions, and how-to guides for students
-- `/scripts` - Educational scripts for students to learn from
-- `/src` - Internal source code for project tooling (not student-facing)
 - `/dataroom` - Source documents (e.g., SEC filings as PDFs)
-- `/output` - Generated analysis outputs
 - `/prompts` - LLM prompts for financial analysis tasks
+- `/scripts` - User-facing utility scripts (document processing, extraction)
+- `/instructions` - Educational materials, instructions, and how-to guides for students
+- `/.working` - Temporary/intermediate files (pre-extracted PDFs) - auto-generated, gitignored
+- `/output` - Final analysis outputs and reports
+- `/src` - Internal source code for project tooling (not student-facing)
 
 ## Claude Code Skills
 

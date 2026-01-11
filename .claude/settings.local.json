@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git push)",
+      "Bash(find:*)",
+      "Bash(python scripts/check_document_size.py:*)",
+      "Bash(python scripts/extract_sections.py:*)",
+      "Bash(make:*)"
     ]
   }
 }

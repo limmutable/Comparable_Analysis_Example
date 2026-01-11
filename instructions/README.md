@@ -4,22 +4,78 @@ Welcome to the Comparable Analysis project documentation. This directory contain
 
 ## Documentation Index
 
+### Getting Started
+
 | Document | Description |
 |----------|-------------|
-| [Getting Started](getting-started.md) | Environment setup, CLI installation, and project configuration |
+| [Getting Started](getting-started.md) | Environment setup, CLI installation, project configuration |
+
+### Analysis Workflow
+
+| Document | Description |
+|----------|-------------|
+| [Analysis Workflow](analysis-workflow.md) | Overview and navigation hub for all workflow stages |
+
+### Workflow Stages
+
+| Stage | Document | Description | Prompt |
+|-------|----------|-------------|--------|
+| 1 | [Dataroom Setup](01-dataroom-setup.md) | Prepare and organize source materials | - |
+| 2 | [Target Analysis](02-target-analysis.md) | Analyze target company financials | `01-target-summary.md` |
+| 3 | [Peer Selection](03-peer-selection.md) | Identify comparable companies | `02-peer-selection.md` |
+| 4 | [Valuation Analysis](04-valuation.md) | Calculate multiples and implied value | `03-data-extraction.md`, `04-valuation-analysis.md` |
+| 5 | [Output & Reports](05-output-reports.md) | Generate deliverables | `05-output-format.md` |
+
+---
 
 ## Suggested Learning Path
 
-1. **[Getting Started](getting-started.md)** - Begin here to set up your development environment, install Claude and Gemini CLI tools, and verify your project configuration.
+```
+┌─────────────────┐
+│ Getting Started │  ← Start here
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│Analysis Workflow│  ← Overview
+└────────┬────────┘
+         │
+    ┌────┴────┐
+    ▼         ▼
+Stage 1 → Stage 2 → Stage 3 → Stage 4 → Stage 5
+```
+
+1. **[Getting Started](getting-started.md)** - Set up development environment, install CLI tools
+2. **[Analysis Workflow](analysis-workflow.md)** - Understand the overall workflow
+3. **[Dataroom Setup](01-dataroom-setup.md)** - Organize source documents
+4. **[Target Analysis](02-target-analysis.md)** - Analyze target company
+5. **[Peer Selection](03-peer-selection.md)** - Select comparable companies
+6. **[Valuation Analysis](04-valuation.md)** - Calculate multiples and valuation
+7. **[Output & Reports](05-output-reports.md)** - Generate final deliverables
+
+---
 
 ## Quick Links
 
-- **Project Root**: `../` - Main project directory
-- **Source Documents**: `../dataroom/` - SEC filings and input documents
-- **Analysis Outputs**: `../output/` - Generated reports and analysis
-- **LLM Prompts**: `../prompts/` - Prompt templates for analysis tasks
-- **Scripts**: `../scripts/` - Educational Python scripts
+| Resource | Location | Description |
+|----------|----------|-------------|
+| Source Documents | `../dataroom/` | SEC filings and input documents |
+| Prompt Templates | `../prompts/` | Reusable analysis prompts |
+| Analysis Outputs | `../output/` | Generated reports and data |
+| Claude Skills | `../.claude/skills/` | Auto-activated analysis skills |
+| Scripts | `../scripts/` | Educational Python scripts |
+
+---
+
+## Related Documentation
+
+- **[Prompts README](../prompts/README.md)** - Prompt template index and usage
+- **[Key Metrics Reference](../.claude/skills/financial-analysis/key-metrics.md)** - Financial formulas and definitions
+
+---
 
 ## Need Help?
 
-If you encounter issues during setup, check the **Troubleshooting** section in the [Getting Started](getting-started.md) guide.
+- **Setup Issues:** Check [Troubleshooting](getting-started.md#troubleshooting) in Getting Started
+- **Workflow Questions:** See [Analysis Workflow](analysis-workflow.md) overview
+- **Prompt Usage:** See [Prompts README](../prompts/README.md)

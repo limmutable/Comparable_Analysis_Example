@@ -3,3 +3,9 @@ __pycache__/
 *.pyc
 .claude/settings.local.json
 .env
+
+# Virtual environment
+.venv/
+
+# Working directory for intermediate files (pre-extracted PDFs, etc.)
+.working/

@@ -1,514 +1,175 @@
 # Analysis Workflow Guide
 
-This guide explains the end-to-end process for conducting comparable financial analysis—from preparing source materials to generating final reports.
+This guide provides a structured approach to conducting comparable financial analysis. Each workflow stage has its own detailed guide.
 
 ---
 
-## Table of Contents
-
-1. [Preparing Source Materials](#1-preparing-source-materials)
-2. [Reading and Parsing Data](#2-reading-and-parsing-data)
-3. [Creating Analysis Prompts](#3-creating-analysis-prompts)
-4. [Performing Analysis](#4-performing-analysis)
-5. [Structuring Output](#5-structuring-output)
-6. [Generating Reports](#6-generating-reports)
-
----
-
-## 1. Preparing Source Materials
-
-Source materials are stored in the `/dataroom` directory. This section covers how to organize and prepare documents for analysis.
-
-### 1.1 Supported Document Types
-
-| Document Type | Description | Common Sources |
-|---------------|-------------|----------------|
-| SEC Filings | 10-K (annual), 10-Q (quarterly), 8-K (current events) | [SEC EDGAR](https://www.sec.gov/edgar/searchedgar/companysearch) |
-| Earnings Reports | Quarterly earnings releases, investor presentations | Company IR websites |
-| Financial Statements | Income statement, balance sheet, cash flow statement | SEC filings, annual reports |
-| Market Data | Stock prices, trading volumes, market cap | Financial data providers |
-| Private Company Data| Pitch decks, CIMs, Unaudiated financials, Cap tables | Company management, VDRs |
-
-### 1.2 Organizing the Dataroom
-
-Create a logical folder structure within `/dataroom`:
+## Workflow Overview
 
 ```
-dataroom/
-├── target-company/
-│   ├── sec-filings/        # For public companies (10-K, 10-Q)
-│   │   ├── 10-K-2024.pdf
-│   │   └── 10-Q-Q3-2024.pdf
-│   ├── financials/         # For private companies (Excel, PDF)
-│   │   ├── unaudited-2023.xlsx
-│   │   └── projections-2024-2028.xlsx
-│   ├── presentations/      # Investor decks, CIMs, Pitch decks
-│   │   ├── investor-day-2024.pdf
-│   │   └── intro-deck-2024.pdf
-│   ├── corporate/          # Cap tables, Org charts
-│   │   └── cap-table.xlsx
-│   └── earnings/           # For public companies
-│       └── Q3-2024-earnings.pdf
-├── peer-companies/
-│   ├── company-a/
-│   │   └── 10-K-2024.pdf
-│   ├── company-b/
-│   │   └── 10-K-2024.pdf
-│   └── company-c/
-│       └── 10-K-2024.pdf
-└── market-data/          # Industry reports, Beta, Risk-free rate
-    ├── trading-comps.csv
-    ├── industry-report-2024.pdf
-    └── market-statistics.xlsx
-```
-
-### 1.3 File Naming Conventions
-
-Use consistent, descriptive file names:
-
-```
-[company-ticker]-[document-type]-[period].pdf
-
-Examples:
-- nota-10-K-2024.pdf
-- aapl-10-Q-Q3-2024.pdf
-- msft-earnings-Q2-2024.pdf
-- startup-deck-seed-round.pdf
-- scaleup-financials-2023.xlsx
-```
-
-### 1.4 Downloading SEC Filings
-
-**Manual Download:**
-1. Go to [SEC EDGAR](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany)
-2. Search by company name or CIK number
-3. Filter by filing type (10-K, 10-Q, etc.)
-4. Download the filing as PDF
-
-**Using Claude CLI:**
-```bash
-claude
-> "Help me find and download the latest 10-K filing for [Company Name]"
+┌─────────────────────────────────────────────────────────────────────┐
+│                        ANALYSIS WORKFLOW                            │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐            │
+│   │  1. Setup   │───▶│  2. Target  │───▶│  3. Peers   │            │
+│   │  Dataroom   │    │  Analysis   │    │  Selection  │            │
+│   └─────────────┘    └─────────────┘    └─────────────┘            │
+│         │                  │                  │                     │
+│         ▼                  ▼                  ▼                     │
+│   01-dataroom-      02-target-         03-peer-                    │
+│   setup.md          analysis.md        selection.md                │
+│                                                                     │
+│   ┌─────────────┐    ┌─────────────┐                               │
+│   │ 4. Valuation│───▶│ 5. Output & │                               │
+│   │  Analysis   │    │   Reports   │                               │
+│   └─────────────┘    └─────────────┘                               │
+│         │                  │                                        │
+│         ▼                  ▼                                        │
+│   04-valuation.md    05-output-                                    │
+│                      reports.md                                     │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 2. Reading and Parsing Data
+## Workflow Stages
 
-Once materials are in the dataroom, extract the relevant financial data for analysis.
+| Stage | Guide | Description | Prompt Template |
+|-------|-------|-------------|-----------------|
+| 1 | [Dataroom Setup](01-dataroom-setup.md) | Prepare and organize source materials | - |
+| 2 | [Target Analysis](02-target-analysis.md) | Analyze target company financials | `prompts/01-target-summary.md` |
+| 3 | [Peer Selection](03-peer-selection.md) | Identify comparable companies | `prompts/02-peer-selection.md` |
+| 4 | [Valuation Analysis](04-valuation.md) | Calculate multiples and implied value | `prompts/03-data-extraction.md`, `prompts/04-valuation-analysis.md` |
+| 5 | [Output & Reports](05-output-reports.md) | Generate deliverables | `prompts/05-output-format.md` |
 
-### 2.1 Key Data Points to Extract
+**Full Workflow Prompt:** `prompts/startup-comps-full.md` - Runs all stages end-to-end
 
-**From Income Statement:**
-- Revenue / Net Sales
-- Cost of Goods Sold (COGS)
-- Gross Profit
-- Operating Expenses (SG&A, R&D)
-- Operating Income (EBIT)
-- Interest Expense
-- Net Income
-- Earnings Per Share (EPS)
-- Shares Outstanding
+---
 
-**From Balance Sheet:**
-- Cash and Cash Equivalents
-- Total Assets
-- Total Debt (Short-term + Long-term)
-- Shareholders' Equity
-- Book Value Per Share
+## Quick Start
 
-**From Cash Flow Statement:**
-- Operating Cash Flow
-- Capital Expenditures (CapEx)
-- Free Cash Flow
-- Depreciation & Amortization
-
-**Market Data:**
-- Current Stock Price
-- Market Capitalization
-- Enterprise Value
-
-### 2.2 Using Claude to Parse Documents
-
-Start Claude in the project directory and ask it to read and extract data:
+### Option 1: Run Full Analysis (Automated)
 
 ```bash
 cd ~/Projects/Comparable_Analysis_Example
 claude
 
-# Parse a specific SEC filing
-> "Read the 10-K filing at dataroom/nota-sec.pdf and extract the key financial metrics from the most recent fiscal year"
-
-# Extract specific data points
-> "From the 10-K in the dataroom, extract: Revenue, EBITDA, Net Income, Total Debt, and Cash for the last 3 fiscal years"
-
-# Create a structured summary
-> "Parse the financial statements from dataroom/nota-sec.pdf and create a summary table with Income Statement, Balance Sheet, and Cash Flow highlights"
+> "Using prompts/startup-comps-full.md, perform a complete comparable company analysis for the company in dataroom/target-company/"
 ```
 
-### 2.3 Data Validation Checklist
+### Option 2: Run Stage by Stage (Manual)
 
-After extracting data, verify:
-
-- [ ] Numbers match between different sections of the filing
-- [ ] Units are consistent (millions, thousands, etc.)
-- [ ] Fiscal year end dates are correct
-- [ ] Per-share figures use correct share count
-- [ ] EBITDA calculation is consistent (Operating Income + D&A)
-
-### 2.4 Handling Multiple Companies
-
-When analyzing peer companies, create a standardized extraction template:
-
-> "For each company in dataroom/peer-companies/, extract the following metrics and create a comparison table: Revenue, EBITDA, EBITDA Margin, Net Income, Total Debt, Cash, and calculate Enterprise Value"
-```
-
-### 2.5 Handling Private Company Data (Unstructured)
-
-Private companies often provide messy or incomplete data.
-
-**Scanning Intros/Decks:**
 ```bash
-> "Read the pitch deck at dataroom/private-target/presentations/intro-deck-2024.pdf. Summarize the business model, key customers, and any mentioned financial milestones."
-```
+# Stage 1: Setup dataroom (manual - see 01-dataroom-setup.md)
 
-**Parsing Unaudited Financials (Excel/PDF):**
-```bash
-> "Read dataroom/private-target/financials/unaudited-2023.xlsx. Extract the historical P&L and reformat it into a standard Income Statement. Note which line items might need adjustment (e.g., 'Owner's Personal Expenses')."
-```
+# Stage 2: Target analysis
+> "Using prompts/01-target-summary.md, analyze dataroom/target-company/10-K-2024.pdf"
 
-**Validating Projections:**
-```bash
-> "Compare the management projections in dataroom/private-target/financials/projections.xlsx with historical growth rates. Flag any aggressive assumptions."
+# Stage 3: Peer selection
+> "Using prompts/02-peer-selection.md, identify 5-7 comparable companies"
+
+# Stage 4: Valuation analysis
+> "Using prompts/04-valuation-analysis.md, calculate implied valuation"
+
+# Stage 5: Generate report
+> "Using prompts/05-output-format.md, generate final report to output/reports/"
 ```
 
 ---
 
-## 3. Creating Analysis Prompts
+## Project Structure Reference
 
-Effective prompts produce better analysis. Store reusable prompts in the `/prompts` directory.
-
-### 3.1 Prompt Structure
-
-A well-structured analysis prompt includes:
-
-```markdown
-## Context
-[Background on the company/industry being analyzed]
-
-## Objective
-[Specific goal of the analysis]
-
-## Data Sources
-[List of documents to reference]
-
-## Required Outputs
-[Expected deliverables and format]
-
-## Constraints
-[Any limitations or specific requirements]
 ```
-
-### 3.2 Example Prompts
-
-**Comparable Company Analysis Prompt:**
-
-```markdown
-## Context
-Analyzing [Target Company] in the [Industry] sector to determine fair valuation.
-
-## Objective
-Perform a comparable company analysis using public market trading multiples.
-
-## Data Sources
-- Target company 10-K: dataroom/target-company/10-K-2024.pdf
-- Peer company filings in dataroom/peer-companies/
-
-## Required Outputs
-1. Peer selection rationale (5-7 comparable companies)
-2. Trading multiples table (EV/Revenue, EV/EBITDA, P/E)
-3. Statistical summary (mean, median, high, low)
-4. Implied valuation range for target company
-
-## Constraints
-- Use LTM (Last Twelve Months) financials
-- Exclude companies with negative EBITDA from EV/EBITDA analysis
-- Note any adjustments made for one-time items
-```
-
-**Financial Statement Analysis Prompt:**
-
-```markdown
-## Context
-Deep-dive analysis of [Company Name] financial health and performance.
-
-## Objective
-Analyze profitability, liquidity, and leverage trends over the past 3 years.
-
-## Data Sources
-- dataroom/[company]/10-K-2024.pdf
-- dataroom/[company]/10-K-2023.pdf
-- dataroom/[company]/10-K-2022.pdf
-
-## Required Outputs
-1. Profitability analysis (margins, ROE, ROIC)
-2. Liquidity analysis (current ratio, quick ratio, cash conversion cycle)
-3. Leverage analysis (Debt/EBITDA, interest coverage)
-4. Year-over-year trend commentary
-
-## Constraints
-- Highlight any significant changes (>10% YoY)
-- Flag potential concerns or red flags
-```
-
-### 3.3 Saving Prompts
-
-Save reusable prompts as Markdown files:
-
-```bash
-# Create a prompts file
-cat > prompts/comparable-analysis.md << 'EOF'
-# Comparable Company Analysis Prompt
-
-## Context
-...
-EOF
+Comparable_Analysis_Example/
+├── dataroom/              # Source documents (Stage 1)
+│   ├── target-company/
+│   ├── peer-companies/
+│   └── market-data/
+├── prompts/               # Analysis prompt templates
+│   ├── _base.md
+│   ├── 01-target-summary.md
+│   ├── 02-peer-selection.md
+│   ├── 03-data-extraction.md
+│   ├── 04-valuation-analysis.md
+│   ├── 05-output-format.md
+│   └── startup-comps-full.md
+├── scripts/               # Utility scripts
+│   ├── check_document_size.py   # Check file sizes
+│   └── extract_sections.py      # Extract PDF sections
+├── .working/              # Intermediate files (pre-extracted PDFs)
+│   └── {company-name}/    # Auto-created by make extract-pages
+├── output/                # Final analysis outputs (Stage 5)
+│   ├── {company-name}/
+│   └── reports/
+├── instructions/          # This documentation
+│   ├── README.md
+│   ├── getting-started.md
+│   ├── analysis-workflow.md  ← You are here
+│   ├── 01-dataroom-setup.md
+│   ├── 02-target-analysis.md
+│   ├── 03-peer-selection.md
+│   ├── 04-valuation.md
+│   └── 05-output-reports.md
+└── .claude/skills/        # Claude skills
+    ├── financial-analysis/
+    └── financial-modeling/
 ```
 
 ---
 
-## 4. Performing Analysis
+## Quality Standards
 
-Use Claude's built-in skills, custom scripts, and tools to execute the analysis.
+All analysis follows these standards (defined in `prompts/_base.md`):
 
-### 4.1 Using Claude Skills
+### Reasoning Protocol
+1. **Identify Goal** → State analysis objective
+2. **Data Survey** → List available sources
+3. **Logic Step** → Explain calculations
+4. **Execution** → Perform analysis
+5. **Sanity Check** → Validate results
+6. **Output** → Present findings
 
-This project includes two financial analysis skills that activate automatically:
+### Citation Requirements
+- Every number needs a source: `[File, Page X]`
+- Calculated values: `[Calc: formula]`
+- Missing data: `"Data Not Available"`
 
-| Skill | When to Use | Example Prompts |
-|-------|-------------|-----------------|
-| `financial-analysis` | Comparable comps, financial statement analysis, valuation multiples | "Create a comp table for tech companies" |
-| `financial-modeling` | DCF models, forecasts, projections | "Build a 5-year DCF model" |
-
-**Invoking Skills:**
-
-```bash
-claude
-
-# Financial Analysis skill activates automatically
-> "Analyze the SEC filing in dataroom/nota-sec.pdf and create a comparable company analysis"
-
-# Financial Modeling skill activates automatically
-> "Using the data from the 10-K, build a DCF valuation model with 5-year projections"
-```
-
-### 4.2 Step-by-Step Analysis Workflow
-
-**Step 1: Initial Document Review**
-```bash
-> "Read dataroom/nota-sec.pdf and provide a summary of the company's business, key financial metrics, and any notable items"
-```
-
-**Step 2: Peer Selection**
-```bash
-> "Based on the company profile, suggest 5-7 comparable public companies in the same industry with similar business models and size"
-```
-
-**Step 3: Data Extraction**
-```bash
-> "Extract the following metrics for the target company and each peer: Revenue, EBITDA, Net Income, Total Debt, Cash, Market Cap. Calculate Enterprise Value for each."
-```
-
-**Step 4: Calculate Multiples**
-```bash
-> "Calculate trading multiples for each company: EV/Revenue, EV/EBITDA, P/E. Create a comp table showing all companies with mean, median, high, and low statistics."
-```
-
-**Step 5: Valuation Analysis**
-```bash
-> "Apply the median multiples from the peer group to the target company's financials. Provide an implied valuation range."
-```
-
-### 4.3 Using Scripts (Optional)
-
-For repetitive calculations, use Python scripts in `/scripts`:
-
-```bash
-# Run a calculation script
-python scripts/calculate_multiples.py --input dataroom/financials.csv --output output/multiples.csv
-```
-
-### 4.4 Combining Multiple Data Sources
-
-```bash
-> "Combine the financial data from all 10-K filings in the dataroom and create a consolidated peer comparison. Use the market data in dataroom/market-data/trading-comps.csv for current stock prices."
-```
+### Output Language
+- **Research:** Any language
+- **Output:** Korean (한국어) with English financial terms
 
 ---
 
-## 5. Structuring Output
+## Claude Skills
 
-All analysis outputs should be saved to the `/output` directory in structured formats.
+Two skills auto-activate based on your request:
 
-### 5.1 Output Directory Structure
-
-```
-output/
-├── [company-name]/
-│   ├── financial-summary.md
-│   ├── comp-table.csv
-│   ├── valuation-analysis.md
-│   └── dcf-model.csv
-└── reports/
-    └── [company-name]-analysis-[date].md
-```
-
-### 5.2 Standard Output Formats
-
-**Markdown (.md)** - For narrative analysis and formatted tables:
-- Executive summaries
-- Investment thesis
-- Detailed commentary
-- Tables with formatting
-
-**CSV (.csv)** - For numerical data and spreadsheet compatibility:
-- Financial data extracts
-- Comp tables
-- Model outputs
-- Time series data
-
-### 5.3 Table Formatting Standards
-
-**Markdown Tables:**
-
-```markdown
-| Company | Revenue ($M) | EBITDA ($M) | EV/Revenue | EV/EBITDA |
-|---------|-------------:|------------:|-----------:|----------:|
-| Target  |        1,200 |         180 |       4.2x |     28.0x |
-| Peer A  |        2,500 |         400 |       3.8x |     23.8x |
-| Peer B  |          800 |         120 |       5.0x |     33.3x |
-| **Mean**|              |             |   **4.3x** | **28.4x** |
-| **Median**|            |             |   **4.2x** | **28.0x** |
-```
-
-**CSV Format:**
-
-```csv
-Company,Revenue_M,EBITDA_M,EV_Revenue,EV_EBITDA
-Target,1200,180,4.2,28.0
-Peer A,2500,400,3.8,23.8
-Peer B,800,120,5.0,33.3
-```
-
-### 5.4 Saving Outputs with Claude
-
-```bash
-> "Save the comp table to output/nota/comp-table.csv"
-
-> "Create a financial summary and save it to output/nota/financial-summary.md"
-```
+| Skill | Activates When | Example |
+|-------|----------------|---------|
+| `financial-analysis` | Comps, financial statements, multiples | "Create a comp table" |
+| `financial-modeling` | DCF, forecasts, projections | "Build a 5-year DCF model" |
 
 ---
 
-## 6. Generating Reports
-
-Combine analysis outputs into comprehensive reports.
-
-### 6.1 Report Structure
-
-A complete analysis report should include:
-
-```markdown
-# [Company Name] - Comparable Analysis Report
-
-## Executive Summary
-- Key findings (2-3 bullet points)
-- Implied valuation range
-- Investment recommendation
-
-## Company Overview
-- Business description
-- Key products/services
-- Recent developments
-
-## Financial Highlights
-- Revenue and growth trends
-- Profitability metrics
-- Balance sheet strength
-
-## Peer Group Analysis
-- Peer selection criteria
-- Comparable companies overview
-- Trading multiples comparison
-
-## Valuation Analysis
-- Methodology
-- Comp table with statistics
-- Implied valuation range
-- Sensitivity analysis
-
-## Risks and Considerations
-- Key risks
-- Data limitations
-- Market factors
-
-## Appendix
-- Detailed financial data
-- Data sources
-- Methodology notes
-```
-
-### 6.2 Generating Reports with Claude
-
-**Full Report Generation:**
-```bash
-> "Generate a complete comparable analysis report for the company in dataroom/nota-sec.pdf. Include executive summary, financial highlights, peer comparison, and valuation analysis. Save to output/reports/nota-analysis.md"
-```
-
-**Report from Existing Analysis:**
-```bash
-> "Combine the financial summary from output/nota/financial-summary.md and the comp table from output/nota/comp-table.csv into a formatted analysis report. Save to output/reports/nota-final-report.md"
-```
-
-### 6.3 Exporting to CSV
-
-For spreadsheet analysis, export numerical data:
-
-```bash
-> "Export the peer comparison data to CSV format with columns: Company, Ticker, Revenue, EBITDA, Net Income, Market Cap, EV, EV/Revenue, EV/EBITDA, P/E. Save to output/nota/peer-comparison.csv"
-```
-
-### 6.4 Report Quality Checklist
-
-Before finalizing a report, verify:
-
-- [ ] All numbers are sourced and accurate
-- [ ] Units are clearly labeled ($ millions, etc.)
-- [ ] Calculations are correct and reproducible
-- [ ] Peer selection is justified
-- [ ] Assumptions are documented
-- [ ] Risks and limitations are disclosed
-- [ ] Report date and data freshness are noted
-
----
-
-## Quick Reference
-
-### Common Claude Commands
+## Common Commands
 
 | Task | Command |
 |------|---------|
-| Read a filing | `"Read dataroom/[file].pdf and summarize key financials"` |
-| Extract data | `"Extract revenue, EBITDA, and net income from the 10-K"` |
-| Create comp table | `"Create a comparable company analysis table"` |
-| Calculate multiples | `"Calculate EV/EBITDA and P/E multiples for these companies"` |
-| Build DCF model | `"Build a DCF valuation model with 5-year projections"` |
-| Generate report | `"Generate a full analysis report and save to output/"` |
-| Export to CSV | `"Export the data to CSV format"` |
+| Read filing | `"Read dataroom/[file].pdf and summarize key financials"` |
+| Extract data | `"Extract revenue, EBITDA, net income from the 10-K"` |
+| Create comps | `"Create a comparable company analysis table"` |
+| Calculate multiples | `"Calculate EV/EBITDA and P/E multiples"` |
+| Build DCF | `"Build a DCF model with 5-year projections"` |
+| Generate report | `"Generate analysis report, save to output/"` |
+| Export CSV | `"Export data to CSV format"` |
 
-### Key Metrics Reference
+---
 
-See `.claude/skills/financial-analysis/key-metrics.md` for formulas and definitions of:
+## Key Metrics Reference
+
+See `.claude/skills/financial-analysis/key-metrics.md` for:
 - Valuation multiples (EV/EBITDA, P/E, EV/Revenue)
 - Profitability ratios (margins, ROE, ROIC)
 - Liquidity ratios (current ratio, quick ratio)
@@ -516,13 +177,66 @@ See `.claude/skills/financial-analysis/key-metrics.md` for formulas and definiti
 
 ---
 
+## Troubleshooting
+
+### "Exceeds context window limit"
+
+**Cause:** Document is too large for the LLM's context window.
+
+**Solution:**
+```bash
+# 1. Check file sizes
+make check
+
+# 2. Pre-extract specific pages (recommended)
+make extract-pages FILE=dataroom/nota/nota-sec.pdf PAGES=80-120 OUT=.working/nota/financials.txt
+
+# 3. Then analyze the extracted file
+claude
+> "Read .working/nota/financials.txt and extract key financial metrics"
+```
+
+See [Target Analysis - Handling Large Documents](02-target-analysis.md#handling-large-documents) for detailed strategies.
+
+### "File not found" errors
+
+**Cause:** Incorrect file path or file not in dataroom.
+
+**Solution:**
+```bash
+# Check dataroom contents
+ls -la dataroom/
+
+# Use correct relative path from project root
+> "Read dataroom/nota/nota-sec.pdf"  # NOT "Read nota-sec.pdf"
+```
+
+### "No financial data found"
+
+**Cause:** Looking in wrong section of 10-K.
+
+**Solution:**
+- Item 6 (pages ~45-55): 5-year financial summary
+- Item 8 (pages ~80-130): Full financial statements
+- Try: `"Read pages 45-55 of the 10-K and find Selected Financial Data"`
+
+### Scripts not working
+
+**Cause:** Missing Python dependencies.
+
+**Solution:**
+```bash
+# For PDF extraction
+pip install PyPDF2
+
+# Check Python version (3.7+ required)
+python --version
+```
+
+---
+
 ## Next Steps
 
-After completing your analysis:
-
-1. Review outputs in `/output` directory
-2. Validate calculations against source documents
-3. Share reports with stakeholders
-4. Archive source materials for future reference
-
-For additional guidance, see other documents in the `/instructions` directory.
+1. **New to the project?** → Start with [Getting Started](getting-started.md)
+2. **Ready to analyze?** → Begin with [Dataroom Setup](01-dataroom-setup.md)
+3. **Have source docs?** → Jump to [Target Analysis](02-target-analysis.md)
