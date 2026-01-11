@@ -14,17 +14,16 @@ Handles large PDF files by checking sizes and extracting relevant pages to `.wor
 
 | Command | Purpose |
 |---------|---------|
-| `make prep-check COMPANY=nota` | Check if documents need preparation |
-| `make prep COMPANY=nota` | Auto-extract using default ranges |
-| `make extract-pages FILE=... PAGES=80-120` | Extract specific pages |
-| `make check-file FILE=...` | Check single file size |
+| `uv run python scripts/prep_documents.py check {company}` | Check if documents need preparation |
+| `uv run python scripts/prep_documents.py prep {company}` | Auto-extract using default ranges |
+| `uv run python scripts/check_document_size.py {file}` | Check single file size |
 
 ## Workflow
 
 ### Step 1: Check Status
 
 ```bash
-make prep-check COMPANY={company}
+uv run python scripts/prep_documents.py check {company}
 ```
 
 **If files exist in `.working/{company}/`**: Report available files, skip extraction unless `--force`.
@@ -33,7 +32,7 @@ make prep-check COMPANY={company}
 
 Run for each source PDF:
 ```bash
-make check-file FILE=dataroom/{company}/{file}.pdf
+uv run python scripts/check_document_size.py dataroom/{company}/{file}.pdf
 ```
 
 **Decision:**
@@ -42,27 +41,26 @@ make check-file FILE=dataroom/{company}/{file}.pdf
 
 ### Step 3: Extract (if needed)
 
-Use predefined ranges for document type:
-
-**US 10-K Filing:**
+Use auto-extraction:
 ```bash
-make extract-pages FILE=dataroom/{company}/{file}.pdf PAGES=1-30    # Cover, TOC, Business
-make extract-pages FILE=dataroom/{company}/{file}.pdf PAGES=45-60   # Selected financials
-make extract-pages FILE=dataroom/{company}/{file}.pdf PAGES=80-130  # Financial statements
+uv run python scripts/prep_documents.py prep {company}
 ```
 
-**Korean SEC Filing (증권신고서):**
+Or extract specific pages:
 ```bash
-make extract-pages FILE=dataroom/{company}/{file}.pdf PAGES=1-30    # 표지, 목차
-make extract-pages FILE=dataroom/{company}/{file}.pdf PAGES=100-150 # 사업 내용
-make extract-pages FILE=dataroom/{company}/{file}.pdf PAGES=150-200 # 재무 정보
-make extract-pages FILE=dataroom/{company}/{file}.pdf PAGES=250-320 # 재무제표
+uv run python scripts/extract_sections.py dataroom/{company}/{file}.pdf --pages 80-130 --output .working/{company}/{file}-80-130.txt
 ```
 
-Or use auto-extraction:
-```bash
-make prep COMPANY={company}
-```
+**Common page ranges for US 10-K:**
+- Pages 1-30: Cover, TOC, Business description
+- Pages 45-60: Selected financial data
+- Pages 80-130: Financial statements
+
+**Common page ranges for Korean SEC Filing (증권신고서):**
+- Pages 1-30: 표지, 목차
+- Pages 100-150: 사업 내용
+- Pages 150-200: 재무 정보
+- Pages 250-320: 재무제표
 
 ### Step 4: Verify & Report
 

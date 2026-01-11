@@ -238,28 +238,29 @@ This will:
 ### 4.2 Verify Python Setup
 
 ```bash
-# Check document sizes in dataroom
-make check
+# Run tests to verify setup
+make test
 
-# View available commands
-make help
+# Check document sizes in dataroom
+uv run python scripts/check_document_size.py dataroom/
 ```
 
 ### 4.3 Using Scripts
 
-Always use `make` commands or `uv run` to ensure proper environment:
+Always use `uv run` to ensure proper environment:
 
 ```bash
-# Recommended: use make commands
-make check                    # Check document sizes
-make guide                    # Show 10-K section guide
-make extract-pages FILE=dataroom/nota/nota-sec.pdf PAGES=80-120 OUT=.working/nota/financials.txt
-
-# Alternative: use uv run directly
+# Check document sizes
 uv run python scripts/check_document_size.py dataroom/
+
+# Extract pages from PDF
+uv run python scripts/extract_sections.py dataroom/nota/nota-sec.pdf --pages 80-120 --output .working/nota/financials.txt
+
+# Prepare documents for analysis
+uv run python scripts/prep_documents.py check nota
 ```
 
-> **Note:** Never use `python` directly. Always use `uv run python` or `make` commands to ensure the correct virtual environment is used.
+> **Note:** Never use `python` directly. Always use `uv run python` to ensure the correct virtual environment is used.
 
 ---
 
@@ -275,7 +276,7 @@ gemini --version
 claude --version
 
 # 3. Check Python setup
-make check
+make test
 
 # 4. Navigate to project and test
 cd ~/Projects/Comparable_Analysis_Example

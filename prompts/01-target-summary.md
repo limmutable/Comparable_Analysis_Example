@@ -38,10 +38,6 @@ ls .working/
 ### Step 2: If No Pre-extracted Files, Check File Size
 
 ```bash
-# Run size check
-make check-file FILE=dataroom/{company}/{file}.pdf
-
-# OR use the script directly
 uv run python scripts/check_document_size.py dataroom/{company}/{file}.pdf
 ```
 
@@ -49,16 +45,15 @@ uv run python scripts/check_document_size.py dataroom/{company}/{file}.pdf
 
 | Status | Action |
 |--------|--------|
-| **✓ OK** (< 500K tokens) | Read the PDF directly |
-| **⚠️ TOO LARGE** (> 500K tokens) | Extract pages first (see below) |
+| **OK** (< 500K tokens) | Read the PDF directly |
+| **TOO LARGE** (> 500K tokens) | Extract pages first (see below) |
 
 ### Step 4: Extract Pages for Large Files
 
 ```bash
 # Extract specific page ranges to .working/
-make extract-pages FILE=dataroom/{company}/{file}.pdf PAGES=80-120
+uv run python scripts/extract_sections.py dataroom/{company}/{file}.pdf --pages 80-120 --output .working/{company}/{file}-80-120.txt
 
-# Output auto-saved to: .working/{company}/{file}-80-120.txt
 # Then read the extracted text file instead
 ```
 
@@ -66,25 +61,25 @@ make extract-pages FILE=dataroom/{company}/{file}.pdf PAGES=80-120
 
 ## Handling Large Documents
 
-> ⚠️ **CRITICAL:** Never attempt to read a full 10-K/증권신고서 directly. Always use pre-extracted files from `.working/` or extract pages first.
+> **CRITICAL:** Never attempt to read a full 10-K/증권신고서 directly. Always use pre-extracted files from `.working/` or extract pages first.
 
 ### Recommended Extraction Ranges for 10-K/증권신고서
 
 | Section | Pages | Extract Command |
 |---------|-------|-----------------|
-| Cover & Overview | 1-30 | `make extract-pages FILE=... PAGES=1-30` |
-| Financial Summary | 45-55 | `make extract-pages FILE=... PAGES=45-55` |
-| Financial Statements | 80-130 | `make extract-pages FILE=... PAGES=80-130` |
-| Risk Factors | 150-200 | `make extract-pages FILE=... PAGES=150-200` |
+| Cover & Overview | 1-30 | `uv run python scripts/extract_sections.py ... --pages 1-30` |
+| Financial Summary | 45-55 | `uv run python scripts/extract_sections.py ... --pages 45-55` |
+| Financial Statements | 80-130 | `uv run python scripts/extract_sections.py ... --pages 80-130` |
+| Risk Factors | 150-200 | `uv run python scripts/extract_sections.py ... --pages 150-200` |
 
 ### Key 10-K Sections
 
 | Section | Pages | Priority |
 |---------|-------|----------|
-| Item 6: Selected Financial | 45-55 | ★★★ 5-year summary |
-| Item 8: Financial Statements | 80-130 | ★★★ Full financials |
-| Item 7: MD&A | 55-80 | ★★ Context |
-| Item 1: Business | 6-25 | ★ Overview |
+| Item 6: Selected Financial | 45-55 | 5-year summary |
+| Item 8: Financial Statements | 80-130 | Full financials |
+| Item 7: MD&A | 55-80 | Context |
+| Item 1: Business | 6-25 | Overview |
 
 ---
 
@@ -114,7 +109,7 @@ Analyze source documents and produce the following summary:
 | **Target Market** | Customer segments and geographic focus |
 
 ### 2. 재무 현황 (Financial Snapshot)
- 
+
  <thinking>
  Extract the following metrics.
  **Validation Logic:**
@@ -122,7 +117,7 @@ Analyze source documents and produce the following summary:
  - check if EBITDA < Gross Profit (usually)
  - If Private Company: Search for "Adjusted EBITDA" or "Non-GAAP" metrics and note them clearly.
  </thinking>
- 
+
  | Metric | Value | Period | Source (File, Page) |
  |--------|-------|--------|----------------------|
  | Revenue | $ | FY/TTM | |
@@ -132,9 +127,9 @@ Analyze source documents and produce the following summary:
  | Total Assets | $ | Period | |
  | Total Debt | $ | Period | |
  | Cash | $ | Period | |
- 
+
  ### 3. 단위 경제 (Unit Economics)
- 
+
  *For SaaS/subscription businesses:*
  | Metric | Value | Source |
  |--------|-------|--------|
@@ -144,7 +139,7 @@ Analyze source documents and produce the following summary:
  | CAC | | |
  | LTV | | |
  | LTV/CAC | | |
- 
+
  *For transaction businesses:*
  | Metric | Value | Source |
  |--------|-------|--------|
@@ -152,33 +147,33 @@ Analyze source documents and produce the following summary:
  | Take Rate | | |
  | Transaction Count | | |
  | Average Order Value | | |
- 
+
  ### 4. 기술/경쟁 우위 (Competitive Advantage)
- 
+
  - **Technology Edge:** Proprietary technology, patents, IP
  - **Market Position:** Market share, brand recognition
  - **Barriers to Entry:** Network effects, switching costs, scale
- 
+
  ### 5. 경쟁사 (Competitors)
- 
+
  <thinking>
  Scan for "Competition" or "Peers" section in the documents.
  If direct competitors are not listed, infer from industry reports or "Market" section.
  </thinking>
- 
+
  | Competitor | Description | Differentiation |
  |------------|-------------|-----------------|
  | | | |
  | | | |
  | | | |
- 
+
  ### 6. 주요 리스크 및 기회 (Risks & Opportunities)
- 
+
  **Risks:**
  -
  -
  -
- 
+
  **Opportunities:**
  -
  -
@@ -261,7 +256,7 @@ claude
 
 ```bash
 # First check size
-make check-file FILE=dataroom/target-company/pitch-deck.pdf
+uv run python scripts/check_document_size.py dataroom/target-company/pitch-deck.pdf
 
 # If OK, read directly
 claude
@@ -271,12 +266,12 @@ claude
 ### Example 3: Large PDF (Extract First)
 
 ```bash
-# Step 1: Check size (will show ⚠️ TOO LARGE)
-make check-file FILE=dataroom/nota/nota-sec.pdf
+# Step 1: Check size (will show TOO LARGE)
+uv run python scripts/check_document_size.py dataroom/nota/nota-sec.pdf
 
 # Step 2: Extract key sections
-make extract-pages FILE=dataroom/nota/nota-sec.pdf PAGES=1-30
-make extract-pages FILE=dataroom/nota/nota-sec.pdf PAGES=150-200
+uv run python scripts/extract_sections.py dataroom/nota/nota-sec.pdf --pages 1-30 --output .working/nota/nota-sec-1-30.txt
+uv run python scripts/extract_sections.py dataroom/nota/nota-sec.pdf --pages 150-200 --output .working/nota/nota-sec-150-200.txt
 
 # Step 3: Analyze extracted files
 claude

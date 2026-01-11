@@ -97,9 +97,10 @@ Comparable_Analysis_Example/
 │   └── startup-comps-full.md
 ├── scripts/               # Utility scripts
 │   ├── check_document_size.py   # Check file sizes
-│   └── extract_sections.py      # Extract PDF sections
+│   ├── extract_sections.py      # Extract PDF sections
+│   └── prep_documents.py        # Prepare documents
 ├── .working/              # Intermediate files (pre-extracted PDFs)
-│   └── {company-name}/    # Auto-created by make extract-pages
+│   └── {company-name}/
 ├── output/                # Final analysis outputs (Stage 5)
 │   ├── {company-name}/
 │   └── reports/
@@ -186,10 +187,10 @@ See `.claude/skills/financial-analysis/key-metrics.md` for:
 **Solution:**
 ```bash
 # 1. Check file sizes
-make check
+uv run python scripts/check_document_size.py dataroom/
 
 # 2. Pre-extract specific pages (recommended)
-make extract-pages FILE=dataroom/nota/nota-sec.pdf PAGES=80-120 OUT=.working/nota/financials.txt
+uv run python scripts/extract_sections.py dataroom/nota/nota-sec.pdf --pages 80-120 --output .working/nota/financials.txt
 
 # 3. Then analyze the extracted file
 claude
@@ -226,11 +227,11 @@ ls -la dataroom/
 
 **Solution:**
 ```bash
-# For PDF extraction
-pip install PyPDF2
+# Run setup to install dependencies
+make setup
 
-# Check Python version (3.7+ required)
-python --version
+# Or install manually
+uv pip install -e .
 ```
 
 ---

@@ -25,22 +25,19 @@ claude
 
 ## Handling Large Documents
 
-> ⚠️ **Token Limit Warning:** Full 10-K filings (100-300 pages) often exceed LLM context windows. Use the strategies below.
+> **Token Limit Warning:** Full 10-K filings (100-300 pages) often exceed LLM context windows. Use the strategies below.
 
 ### Step 1: Check Document Size
 
 ```bash
-# Using make (recommended)
-make check
+# Check all files in dataroom
+uv run python scripts/check_document_size.py dataroom/
 
-# Or check specific directory
-make check-file FILE=dataroom/target-company/
-
-# Alternative: using uv run
+# Check specific directory
 uv run python scripts/check_document_size.py dataroom/target-company/
 ```
 
-If a file shows "⚠️ TOO LARGE", use one of these strategies:
+If a file shows "TOO LARGE", use one of these strategies:
 
 ### Strategy A: Page-Range Reading (Recommended)
 
@@ -73,9 +70,6 @@ Break into multiple requests:
 
 ```bash
 # Extract financial statement pages to text
-make extract-pages FILE=dataroom/nota/nota-sec.pdf PAGES=80-120 OUT=.working/nota/financials.txt
-
-# Alternative: using uv run
 uv run python scripts/extract_sections.py dataroom/nota/nota-sec.pdf --pages 80-120 --output .working/nota/financials.txt
 
 # Then analyze the smaller extracted file
@@ -102,29 +96,27 @@ Ask for specific data points:
 | Cover & TOC | 1-5 | Basic info, table of contents |
 | Item 1: Business | 6-25 | Business description |
 | Item 1A: Risk Factors | 25-45 | Risk disclosures |
-| Item 6: Selected Financial | 45-55 | 5-year financial summary ★ |
-| Item 7: MD&A | 55-80 | Management discussion ★ |
-| Item 8: Financials | 80-130 | Full financial statements ★ |
-
-★ = Key sections for financial analysis
+| Item 6: Selected Financial | 45-55 | 5-year financial summary |
+| Item 7: MD&A | 55-80 | Management discussion |
+| Item 8: Financials | 80-130 | Full financial statements |
 
 ### Script Reference
 
 ```bash
 # Check all files in dataroom
-make check
+uv run python scripts/check_document_size.py dataroom/
 
 # View 10-K section guide
-make guide
+uv run python scripts/extract_sections.py --guide
 
 # View chunking strategies
-make strategies
+uv run python scripts/extract_sections.py --strategies
 
 # Get PDF page count
-make pdf-info FILE=dataroom/nota/nota-sec.pdf
+uv run python scripts/extract_sections.py dataroom/nota/nota-sec.pdf --info
 
 # Extract specific pages
-make extract-pages FILE=dataroom/nota/nota-sec.pdf PAGES=80-120 OUT=.working/nota/financials.txt
+uv run python scripts/extract_sections.py dataroom/nota/nota-sec.pdf --pages 80-120 --output .working/nota/financials.txt
 ```
 
 ---
@@ -201,12 +193,12 @@ make extract-pages FILE=dataroom/nota/nota-sec.pdf PAGES=80-120 OUT=.working/not
 
 | Metric | Formula | What to Look For |
 |--------|---------|------------------|
-| ARR | MRR × 12 | Growth rate |
+| ARR | MRR x 12 | Growth rate |
 | ARPU | ARR / Customers | Expansion vs. contraction |
 | CAC | S&M Spend / New Customers | Efficiency |
-| LTV | ARPU × Gross Margin × Lifetime | Rule of thumb: >3× CAC |
-| LTV/CAC | LTV / CAC | Target: 3-5× |
-| Payback | CAC / (ARPU × Gross Margin) | Target: <18 months |
+| LTV | ARPU x Gross Margin x Lifetime | Rule of thumb: >3x CAC |
+| LTV/CAC | LTV / CAC | Target: 3-5x |
+| Payback | CAC / (ARPU x Gross Margin) | Target: <18 months |
 
 ### Transaction / Marketplace
 
@@ -229,7 +221,7 @@ Use these validation rules (built into `prompts/01-target-summary.md`):
 1. Gross Profit < Revenue? (Must be true)
 2. EBITDA < Gross Profit? (Usually true)
 3. Net Income < EBITDA? (Usually true, unless one-time gains)
-4. Market Cap = Price × Shares? (Verify)
+4. Market Cap = Price x Shares? (Verify)
 5. Units consistent? (Check millions vs. thousands)
 </thinking>
 ```
@@ -282,4 +274,4 @@ Save extracted data to `output/{company-name}/01-company-summary.md`:
 
 ## Next Step
 
-→ Proceed to [Peer Selection](03-peer-selection.md)
+Proceed to [Peer Selection](03-peer-selection.md)
