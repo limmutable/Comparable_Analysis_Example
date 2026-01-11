@@ -1,0 +1,15 @@
+# Comps Table Export
+# Currency: USD (millions)
+# Date: 2026-01-12
+# Note: EV/Revenue multiples for comparable company analysis
+company,ticker,revenue_m,ev_m,ev_revenue_x,growth_pct,market_cap_m,business_model,peer_tier,note
+SoundHound AI,SOUN,84.7,4520.0,53.4,85,4720.0,AI Platform Licensing,Primary,Outlier - AI hype premium
+CEVA Inc,CEVA,106.9,462.0,4.3,10,620.0,Edge AI IP Licensing,Primary,Most similar business model
+C3.ai,AI,310.6,1310.0,4.2,25,2040.0,Enterprise AI Platform,Secondary,Enterprise AI
+BigBear AI,BBAI,158.2,2412.0,15.3,2,2500.0,AI Software B2B,Reference,M&A premium
+Indie Semiconductor,INDI,216.7,785.0,3.6,-3,800.0,Automotive Edge AI,Reference,Automotive cycle
+Airship AI,AISP,23.1,79.0,3.4,87,90.0,Video Analytics AI,Secondary,High growth small-cap
+Veritone,VERI,92.6,200.0,2.2,-7,180.0,AI Platform,Reference,Declining revenue
+Mean,,,,,12.3,,,,Including outlier
+Median,,,,,4.2,,,,Primary reference
+Ex-Outlier Mean,,,,,5.5,,,,Excluding SOUN

@@ -10,6 +10,20 @@ Standardize output formats for all analysis deliverables to ensure consistency, 
 
 ---
 
+## Quick Reference
+
+| Output Type | Format | Location |
+|-------------|--------|----------|
+| Company Summary | Markdown | `output/{company}/01-company-summary.md` |
+| Peer Selection | Markdown | `output/{company}/02-peer-selection.md` |
+| Financial Data | Markdown + CSV | `output/{company}/03-financial-data.md/csv` |
+| Valuation | Markdown | `output/{company}/04-valuation-analysis.md` |
+| Comps Table | CSV | `output/{company}/04-comps-table.csv` |
+| Sensitivity | CSV | `output/{company}/04-sensitivity.csv` |
+| Final Report | Markdown | `output/reports/{company}-comps-report-{date}.md` |
+
+---
+
 ## Output Directory Structure
 
 ```

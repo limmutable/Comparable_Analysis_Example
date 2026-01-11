@@ -19,6 +19,7 @@ This installs `uv` and all dependencies in an isolated virtual environment.
 | `check_document_size.py` | Check file sizes and estimate token counts |
 | `extract_sections.py` | Extract specific pages/sections from PDFs |
 | `prep_documents.py` | Prepare company documents for analysis |
+| `compile_report.py` | Compile analysis files into final report |
 
 ---
 
@@ -91,6 +92,32 @@ uv run python scripts/prep_documents.py prep nota --force
 # Show status of all companies
 uv run python scripts/prep_documents.py status
 ```
+
+---
+
+### compile_report.py
+
+Compiles all analysis files for a company into a comprehensive final report.
+
+```bash
+# Compile report for a company
+uv run python scripts/compile_report.py nota
+
+# With custom output path
+uv run python scripts/compile_report.py nota --output output/custom-report.md
+```
+
+**Output Example:**
+
+```
+Available files: summary, peers, financials, valuation
+Report compiled successfully: output/reports/nota-comps-report-2026-01-12.md
+```
+
+**What it does:**
+- Reads all analysis files from `output/{company}/`
+- Combines them into a single comprehensive report
+- Saves to `output/reports/{company}-comps-report-{date}.md`
 
 ---
 

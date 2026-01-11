@@ -18,7 +18,30 @@ Compile all analysis outputs into professional deliverables: Markdown reports an
 
 ```bash
 claude
-> "Using prompts/05-output-format.md, compile all analysis for {Company} into a final report. Save to output/reports/{company}-comps-report.md"
+# Compile final report for Nota
+> "Compile all analysis files in output/nota/ into a final comprehensive report. Include executive summary, valuation range, and export CSV files. Save to output/reports/nota-comps-report-{date}.md"
+
+# Or with explicit prompt reference
+> "Using prompts/05-output-format.md, compile all analysis for Nota into a final report with CSV exports"
+```
+
+---
+
+## Completed Output Example (Nota)
+
+```
+output/
+├── nota/
+│   ├── 01-company-summary.md      # Target analysis
+│   ├── 02-peer-selection.md       # 7 peers selected
+│   ├── 03-financial-data.md       # Peer financials
+│   ├── 03-financial-data.csv      # Data export
+│   ├── 04-valuation-analysis.md   # $42M-$88M range
+│   ├── 04-comps-table.csv         # EV/Revenue multiples
+│   └── 04-sensitivity.csv         # Sensitivity matrix
+│
+└── reports/
+    └── nota-comps-report-2026-01-12.md
 ```
 
 ---
