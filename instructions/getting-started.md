@@ -257,22 +257,44 @@ uv run python scripts/check_document_size.py dataroom/
 
 ## Step 8: Verify Your Setup
 
-Run the following commands to verify everything is working:
+### 8.1 Verify Gemini (Primary)
+
+Start the Gemini REPL to test the connection:
 
 ```bash
-# 1. Check Gemini CLI
-gemini --version
-
-# 2. Check Claude CLI
-claude --version
-
-# 3. Check Python setup
-make test
-
-# 4. Navigate to project and test
-cd ~/Projects/Comparable_Analysis_Example
 gemini
-> "Hello, are you ready for financial analysis?"
+```
+
+**Try these commands inside the session:**
+```text
+> Hello, are you ready for financial analysis?
+> /help          # Show available commands
+> /clear         # Clear conversation history
+> /exit          # Exit the session
+```
+
+### 8.2 Verify Claude (Optional)
+
+Start the Claude CLI to test the connection:
+
+```bash
+claude
+```
+
+**Try these commands inside the session:**
+```text
+> Hello, what is 2+2?
+> /help          # Show available commands
+> /cost          # Show token usage and cost
+> /clear         # Clear context
+> /exit          # Exit the session
+```
+
+### 8.3 Verify Project Environment
+
+```bash
+# Check Python environment
+make test
 ```
 
 ---
