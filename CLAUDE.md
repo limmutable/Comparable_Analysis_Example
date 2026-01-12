@@ -20,10 +20,13 @@ This is an educational project demonstrating how to automate comparable financia
 
 This project includes custom skills in `.claude/skills/`:
 
-- **financial-modeling** - Build financial models, forecasts, DCF valuations
+- **doc-prepare** - Prepare large documents (10-K, SEC filings) for analysis by checking sizes and extracting pages
 - **financial-analysis** - Comparable company analysis, financial statement analysis, valuation multiples
+- **financial-modeling** - Build financial models, forecasts, DCF valuations
 
 These skills are automatically activated when relevant to your request.
+
+**Hooks:** The `doc-prepare-activator` hook (`.claude/hooks/`) triggers document size checks when SEC filings or large PDFs are mentioned.
 
 ## Analysis Workflow (5 Stages)
 

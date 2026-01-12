@@ -1,14 +1,25 @@
 ---
-name: pdf-parser
-description: Prepare documents for analysis by checking sizes, extracting pages from large PDFs, and organizing files in .working/ directory. Use before analyzing 10-K filings, SEC documents, or any large PDF that may exceed context limits.
+name: doc-prepare
+description: Prepare large documents (10-K, SEC filings, 증권신고서) for LLM analysis by checking sizes and extracting pages to stay within context limits. Use before analyzing any PDF that may exceed 500K tokens.
 allowed-tools: Read, Bash, Glob, Grep, Write
 user-invocable: true
-trigger: prepare documents, extract pages, check file size, prep for analysis
+trigger: prepare documents, extract pages, check file size, prep for analysis, large PDF, context limit, 10-K, SEC filing
 ---
 
-# PDF Parser Skill
+# Document Preparation Skill
 
-Handles large PDF files by checking sizes and extracting relevant pages to `.working/` directory.
+Handles large PDF files by checking sizes and extracting relevant pages to `.working/` directory, ensuring documents stay within LLM context limits.
+
+## When to Use This Skill
+
+| Situation | Use This Skill |
+|-----------|----------------|
+| Analyzing 10-K filings (100+ pages) | Yes |
+| Analyzing 증권신고서 (Korean SEC filings) | Yes |
+| Any PDF > 500K estimated tokens | Yes |
+| Small pitch decks (< 30 pages) | No - read directly |
+
+**For PDF manipulation (forms, merging, generation):** Use the official PDF skill instead.
 
 ## Quick Reference
 
@@ -30,7 +41,6 @@ uv run python scripts/prep_documents.py check {company}
 
 ### Step 2: Size Check
 
-Run for each source PDF:
 ```bash
 uv run python scripts/check_document_size.py dataroom/{company}/{file}.pdf
 ```
@@ -41,7 +51,7 @@ uv run python scripts/check_document_size.py dataroom/{company}/{file}.pdf
 
 ### Step 3: Extract (if needed)
 
-Use auto-extraction:
+Auto-extraction:
 ```bash
 uv run python scripts/prep_documents.py prep {company}
 ```
@@ -51,20 +61,7 @@ Or extract specific pages:
 uv run python scripts/extract_sections.py dataroom/{company}/{file}.pdf --pages 80-130 --output .working/{company}/{file}-80-130.txt
 ```
 
-**Common page ranges for US 10-K:**
-- Pages 1-30: Cover, TOC, Business description
-- Pages 45-60: Selected financial data
-- Pages 80-130: Financial statements
-
-**Common page ranges for Korean SEC Filing (증권신고서):**
-- Pages 1-30: 표지, 목차
-- Pages 100-150: 사업 내용
-- Pages 150-200: 재무 정보
-- Pages 250-320: 재무제표
-
 ### Step 4: Verify & Report
-
-After extraction, verify files exist and report:
 
 ```markdown
 ## Document Preparation Complete
@@ -109,19 +106,16 @@ After extraction, verify files exist and report:
 
 ## Output Locations
 
-Per `prompts/04-output-format.md`, save analysis outputs to:
+Extracted files go to `.working/{company}/`:
+```
+.working/
+└── {company}/
+    ├── {file}-1-30.txt      # Cover, overview
+    ├── {file}-80-130.txt    # Financials
+    └── ...
+```
 
-```
-output/
-├── {company-name}/
-│   ├── 01-target-summary.md
-│   ├── 02-peer-selection.md      # Includes peer financial data
-│   ├── 02-peer-data.csv
-│   ├── 03-valuation-analysis.md
-│   └── 03-comps-table.csv
-└── reports/
-    └── {company-name}-comps-report-{YYYY-MM-DD}.md
-```
+Analysis outputs go to `output/{company}/` per `prompts/04-output-format.md`.
 
 ## Validation Checklist
 
