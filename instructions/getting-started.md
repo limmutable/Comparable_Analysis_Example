@@ -5,7 +5,7 @@ This guide walks you through setting up your development environment for the Com
 ## Prerequisites
 
 - macOS or Windows with WSL (Windows Subsystem for Linux)
-- Terminal/command line access (see [instructions below](#step-0-environment-setup))
+- Terminal/command line access (see [instructions below](#step-1-environment--api-setup))
 - **Python 3.10+** (see [Python Setup](#python-setup) below)
 - A [GitHub](https://github.com/) account
 - A Google AI API key (for Gemini)
@@ -13,43 +13,9 @@ This guide walks you through setting up your development environment for the Com
 - An Anthropic API key (for Claude)
   > **Note**: The $20/month Claude Pro subscription does **not** cover API usage. You need to set up a separate API account with credits.
 
-### Python Setup
 
-Check your Python version:
 
-```bash
-python3 --version
-# Should be 3.10 or higher
-```
-
-**If Python is not installed or version is too old:**
-
-```bash
-# macOS (using Homebrew)
-brew install python@3.12
-
-# Ubuntu/Debian
-sudo apt update && sudo apt install python3.12
-
-# Windows WSL
-sudo apt update && sudo apt install python3.12
-```
-
-### uv Package Manager (Optional Pre-install)
-
-`make setup` will install `uv` automatically, but you can install it manually:
-
-```bash
-# Install uv
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Verify installation (restart terminal first)
-uv --version
-```
-
----
-
-## Step 0: Environment & API Setup
+## Step 1: Environment & API Setup
 
 Before installing tools, ensure you have the correct environment and API keys.
 
@@ -89,7 +55,7 @@ WSL (Windows Subsystem for Linux) lets you run a Linux environment directly on W
 - Press `Enter` to open the Terminal application.
 
 
-## Step 0.1: Install Homebrew (macOS/Linux)
+## Step 2: Install Homebrew (macOS/Linux)
 
 Homebrew is a package manager that simplifies installing software like Node.js and the Gemini CLI.
 
@@ -105,7 +71,45 @@ Homebrew is a package manager that simplifies installing software like Node.js a
    Follow the on-screen instructions (you may need to enter your password).
 
 
-## Step 1: Install Gemini CLI (Primary)
+
+## Step 3: Install Python & uv
+
+### Python Setup
+
+Check your Python version:
+
+```bash
+python3 --version
+# Should be 3.10 or higher
+```
+
+**If Python is not installed or version is too old:**
+
+```bash
+# macOS (using Homebrew)
+brew install python@3.12
+
+# Ubuntu/Debian
+sudo apt update && sudo apt install python3.12
+
+# Windows WSL
+sudo apt update && sudo apt install python3.12
+```
+
+### uv Package Manager (Optional Pre-install)
+
+`make setup` will install `uv` automatically, but you can install it manually:
+
+```bash
+# Install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Verify installation (restart terminal first)
+uv --version
+```
+
+
+## Step 4: Install Gemini CLI (Primary)
 
 Gemini CLI provides access to Google's Gemini models from the terminal. This is the primary tool we will use.
 
@@ -139,7 +143,7 @@ gemini --version
 
 ---
 
-## Step 2: Install Claude CLI (Advanced/Optional)
+## Step 5: Install Claude CLI (Advanced/Optional)
 
 Claude Code is an advanced command-line tool. It is optional but recommended for complex financial modeling tasks.
 
@@ -182,7 +186,7 @@ claude --version
 
 ---
 
-## Step 3: Download Project from GitHub
+## Step 6: Download Project from GitHub
 
 ### 3.1 Clone the Repository
 
@@ -217,7 +221,7 @@ src/              # Internal source code
 
 ---
 
-## Step 4: Setup Python Environment
+## Step 7: Setup Python Environment
 
 The project includes Python scripts for document processing. We use `uv` for fast, reliable package management.
 
@@ -245,26 +249,13 @@ make test
 uv run python scripts/check_document_size.py dataroom/
 ```
 
-### 4.3 Using Scripts
 
-Always use `uv run` to ensure proper environment:
+> **Crucial Note:** Always use `uv run python` instead of `python` directly. This ensures the correct virtual environment and dependencies are used.
 
-```bash
-# Check document sizes
-uv run python scripts/check_document_size.py dataroom/
-
-# Extract pages from PDF
-uv run python scripts/extract_sections.py dataroom/nota/nota-sec.pdf --pages 80-120 --output .working/nota/financials.txt
-
-# Prepare documents for analysis
-uv run python scripts/prep_documents.py check nota
-```
-
-> **Note:** Never use `python` directly. Always use `uv run python` to ensure the correct virtual environment is used.
 
 ---
 
-## Step 5: Verify Your Setup
+## Step 8: Verify Your Setup
 
 Run the following commands to verify everything is working:
 
@@ -288,13 +279,11 @@ gemini
 
 ## Next Steps
 
-Now that your environment is set up, you can:
+Now that your environment is set up, you are ready to start the project:
 
-1. **Explore the dataroom** - Review the SEC filings and source documents
-2. **Run your first analysis** - Ask Claude to analyze a document
-3. **Generate outputs** - Create comparable analysis reports in the `/output` directory
+1. **Understand the Workflow**: Read the [Analysis Workflow Guide](analysis-workflow.md) to understand the end-to-end process.
+2. **Setup Your Data**: Go to [Step 0: Dataroom Setup](00-dataroom-setup.md) to add your target company's documents to the `/dataroom` directory.
 
-See the other guides in this `/instructions` directory for specific tutorials on financial analysis tasks.
 
 ---
 
