@@ -136,6 +136,7 @@ Files prefixed with underscore (`_`) are **utility prompts** - reusable componen
 | Document | Description |
 |----------|-------------|
 | [Analysis Workflow](../instructions/analysis-workflow.md) | Overview and navigation hub |
+| [Shared Standards](../instructions/shared-standards.md) | **Methodology hub**: Peer criteria, valuation formulas, templates |
 | [00-dataroom-setup.md](../instructions/00-dataroom-setup.md) | Stage 0: Prepare source materials |
 | [01-target-analysis.md](../instructions/01-target-analysis.md) | Stage 1: Analyze target company |
 | [02-peer-selection.md](../instructions/02-peer-selection.md) | Stage 2: Select peers + extract data |

@@ -26,6 +26,12 @@ Welcome to the Comparable Analysis project documentation. This directory contain
 | 3 | [Valuation Analysis](03-valuation.md) | Calculate multiples and implied value | `03-valuation-analysis.md` |
 | 4 | [Output & Reports](04-output-reports.md) | Generate deliverables | `04-output-format.md` |
 
+### Reference
+
+| Document | Description |
+|----------|-------------|
+| [Shared Standards](shared-standards.md) | Consolidated methodology, criteria, and templates used across all stages |
+
 ---
 
 ## Suggested Learning Path

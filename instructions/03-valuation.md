@@ -22,170 +22,120 @@ This stage involves:
 
 ```bash
 claude
-# Use the financial-analysis skill for comprehensive valuation
-> "Use the financial-analysis skill to perform valuation analysis for Nota using the peer data from output/nota/02-peer-selection.md"
-
-# Or with explicit prompt reference
 > "Using prompts/03-valuation-analysis.md, calculate trading multiples and implied valuation for Nota"
 ```
 
 ---
 
-## Pre-Profit Company Handling
+## What You'll Learn
 
-For companies with negative EBITDA (common in AI/tech):
+By completing this stage, you will understand:
 
-| Target Status | Use | Avoid |
-|---------------|-----|-------|
-| Pre-profit, high growth | EV/Revenue | EV/EBITDA, P/E |
-| Pre-profit, low growth | EV/Revenue (low multiple) | All profit-based |
-| Profitable | All methods | None |
-
-**Growth-Multiple Relationship:**
-
-| Growth Rate | Typical EV/Revenue |
-|-------------|-------------------|
-| <10% | 1.0x - 3.0x |
-| 10-30% | 2.0x - 5.0x |
-| 30-50% | 4.0x - 8.0x |
-| 50-100% | 6.0x - 15.0x |
-| >100% | 10.0x - 30.0x+ |
+1. **Which multiples to use** - EV/Revenue vs EV/EBITDA vs P/E
+2. **How to calculate multiples** - From peer data
+3. **How to apply multiples** - To derive target valuation
+4. **How to adjust for differences** - Premium/discount rationale
+5. **How to stress-test** - Sensitivity analysis
 
 ---
 
-## Step 1: Calculate Trading Multiples
+## Key Concepts
 
-### Enterprise Value Multiples
+### Choosing the Right Multiple
 
-| Multiple | Formula | When to Use |
-|----------|---------|-------------|
-| EV/Revenue | EV / Revenue | High-growth, negative EBITDA |
-| EV/EBITDA | EV / EBITDA | Most common for profitable cos |
-| EV/EBIT | EV / EBIT | Capital-intensive industries |
+| Target Status | Primary Multiple | Why |
+|---------------|-----------------|-----|
+| Pre-profit, high growth | EV/Revenue | EBITDA is negative |
+| Pre-profit, low growth | EV/Revenue (low) | No earnings base |
+| Profitable, growing | EV/EBITDA | Standard metric |
+| Profitable, stable | P/E | Earnings are reliable |
 
-### Equity Multiples
+> **Reference:** See [Valuation Multiples](shared-standards.md#valuation-multiples) for formulas and when to use each.
 
-| Multiple | Formula | When to Use |
-|----------|---------|-------------|
-| P/E | Price / EPS | Stable, profitable companies |
-| P/S | Market Cap / Revenue | Growth companies |
-| P/B | Price / Book Value | Asset-heavy industries |
+### The Valuation Process
 
-### Comps Table Format
-
-| Company | Revenue ($M) | EBITDA ($M) | Market Cap ($M) | EV ($M) | EV/Rev | EV/EBITDA | P/E |
-|---------|-------------|-------------|-----------------|---------|--------|-----------|-----|
-| Peer 1  | | | | | | | |
-| Peer 2  | | | | | | | |
-| ...     | | | | | | | |
-| **Mean** | | | | | **X.Xx** | **XX.Xx** | **XX.Xx** |
-| **Median** | | | | | **X.Xx** | **XX.Xx** | **XX.Xx** |
-| **High** | | | | | X.Xx | XX.Xx | XX.Xx |
-| **Low** | | | | | X.Xx | XX.Xx | XX.Xx |
+```
+Step 1: Calculate peer multiples
+        ↓
+Step 2: Find median/mean
+        ↓
+Step 3: Apply to target metrics
+        ↓
+Step 4: Adjust for premium/discount
+        ↓
+Step 5: Stress-test with sensitivity
+```
 
 ---
 
-## Step 2: Apply Multiples to Target
+## How to Think About Valuation
 
-### Implied Valuation Calculation
-
-```
-EV/Revenue Method:
-  Target Revenue × Median EV/Revenue = Implied EV
-  Implied EV - Debt + Cash = Implied Equity Value
-
-EV/EBITDA Method:
-  Target EBITDA × Median EV/EBITDA = Implied EV
-  Implied EV - Debt + Cash = Implied Equity Value
-
-P/E Method:
-  Target EPS × Median P/E = Implied Stock Price
-  Implied Price × Shares = Implied Equity Value
-```
-
-### Valuation Summary Table
-
-| Method | Target Metric | Multiple (Median) | Implied EV ($M) | Implied Equity ($M) |
-|--------|---------------|-------------------|-----------------|---------------------|
-| EV/Revenue | Revenue: $XXX | X.Xx | $XXX | $XXX |
-| EV/EBITDA | EBITDA: $XXX | XX.Xx | $XXX | $XXX |
-| P/E | EPS: $X.XX | XX.Xx | - | $XXX |
-
----
-
-## Step 3: Qualitative Adjustment
-
-### Premium/Discount Analysis
+### From Multiples to Value
 
 ```
-<thinking>
-Compare Target to Median peer:
-- If Target grows FASTER → Should trade at PREMIUM to median
-- If Target has LOWER margins → Should trade at DISCOUNT to median
-- If Target has HIGHER risk → Should trade at DISCOUNT to median
-
-Conclusion: Target warrants a [Premium/Discount] because...
-</thinking>
+Target Revenue × Median EV/Revenue = Implied EV
+Implied EV - Debt + Cash = Implied Equity Value
 ```
 
-### Adjustment Rationale
+### Premium vs Discount
+
+Compare target to peer median:
 
 | Factor | Target vs Peers | Adjustment |
 |--------|-----------------|------------|
-| Growth Rate | Faster / Slower / Similar | +/- X% |
-| Profitability | Higher / Lower / Similar | +/- X% |
-| Market Position | Leader / Challenger | +/- X% |
-| Risk Profile | Lower / Higher | +/- X% |
-
-**Selected Multiple:** [Median / Adjusted Median]
-**Rationale:** [Why]
-
----
-
-## Step 4: Sensitivity Analysis
-
-### Multiple Sensitivity
-
-| Scenario | EV/Revenue | EV/EBITDA | Implied EV |
-|----------|------------|-----------|------------|
-| Bear (Low) | X.Xx | XX.Xx | $XXX M |
-| Base (Median) | X.Xx | XX.Xx | $XXX M |
-| Bull (High) | X.Xx | XX.Xx | $XXX M |
-
-### Revenue/EBITDA Sensitivity Matrix
-
-**EV/Revenue Sensitivity ($M)**
-
-| Revenue ↓ / Multiple → | 2.0x | 2.5x | 3.0x | 3.5x | 4.0x |
-|------------------------|------|------|------|------|------|
-| $80M | $160 | $200 | $240 | $280 | $320 |
-| $100M | $200 | $250 | $300 | $350 | $400 |
-| $120M | $240 | $300 | $360 | $420 | $480 |
+| Growth Rate | Faster → Premium | +10-20% |
+| Growth Rate | Slower → Discount | -10-20% |
+| Profitability | Higher → Premium | +5-10% |
+| Profitability | Lower → Discount | -5-10% |
+| Risk Profile | Lower → Premium | +5-10% |
+| Risk Profile | Higher → Discount | -5-10% |
 
 ---
 
-## Step 5: Valuation Range Summary
+## Common Mistakes
 
-| Method | Low | Mid | High |
-|--------|-----|-----|------|
-| EV/Revenue | $XXX M | $XXX M | $XXX M |
-| EV/EBITDA | $XXX M | $XXX M | $XXX M |
-| P/E | $XXX M | $XXX M | $XXX M |
-| **Blended** | **$XXX M** | **$XXX M** | **$XXX M** |
+| Mistake | Why It's Bad | How to Avoid |
+|---------|--------------|--------------|
+| Using mean, not median | Outliers skew results | Always use median |
+| Including negative EBITDA in EV/EBITDA | Meaningless multiple | Exclude or use EV/Revenue |
+| Ignoring debt/cash | Equity ≠ Enterprise Value | Always bridge EV to equity |
+| Single-point estimate | Appears precise, isn't | Use sensitivity range |
+| No rationale for multiple | Seems arbitrary | Document premium/discount logic |
 
-### Blending Weights
+---
+
+## Sensitivity Analysis
+
+Don't present a single number. Show a range:
+
+| Scenario | Multiple | Implied EV |
+|----------|----------|------------|
+| Bear (Low) | 2.0x | $XXX M |
+| Base (Median) | 3.0x | $XXX M |
+| Bull (High) | 4.0x | $XXX M |
+
+> **Reference:** See [Sensitivity Analysis Templates](shared-standards.md#sensitivity-analysis-templates) for matrix formats.
+
+---
+
+## Blending Methods
+
+When you have multiple valid approaches:
 
 | Method | Weight | Rationale |
 |--------|--------|-----------|
-| EV/Revenue | XX% | [e.g., "High-growth, EBITDA negative"] |
-| EV/EBITDA | XX% | [e.g., "Standard for profitable SaaS"] |
-| P/E | XX% | [e.g., "Stable profitability"] |
+| EV/Revenue | 70% | "Pre-profit, high growth" |
+| EV/EBITDA | 30% | "Turning profitable" |
+
+```
+Blended Value = (EV/Rev Value × 70%) + (EV/EBITDA Value × 30%)
+```
 
 ---
 
-## Output Format
+## Output
 
-Save valuation analysis to `output/{company-name}/03-valuation-analysis.md`:
+Save to `output/{company-name}/03-valuation-analysis.md` and `03-comps-table.csv`
 
 ```markdown
 # {Company Name} 밸류에이션 분석
@@ -193,42 +143,42 @@ Save valuation analysis to `output/{company-name}/03-valuation-analysis.md`:
 **분석일:** YYYY-MM-DD
 
 ## 1. Trading Multiples 비교
-
-[Comps table]
+| Company | Revenue ($M) | EV ($M) | EV/Revenue |
+|---------|-------------|---------|------------|
+| Peer 1  | ... | ... | ... |
+| **Median** | | | **X.Xx** |
 
 ## 2. Target 밸류에이션
-
-[Valuation calculation table]
+| Method | Target Metric | Multiple | Implied EV |
+|--------|---------------|----------|------------|
+| EV/Revenue | $XXX M | X.Xx | $XXX M |
 
 ## 3. 민감도 분석
-
-[Sensitivity tables]
+[Sensitivity table]
 
 ## 4. 밸류에이션 범위
-
-| 방법론 | Low | Mid | High |
+| Method | Low | Mid | High |
 |--------|-----|-----|------|
 | EV/Revenue | $XXX M | $XXX M | $XXX M |
-| EV/EBITDA | $XXX M | $XXX M | $XXX M |
 | **Blended** | **$XXX M** | **$XXX M** | **$XXX M** |
 
 ## 5. 주요 가정
-
 - [Assumption 1]
 - [Assumption 2]
 ```
-
-Also export data to `output/{company-name}/03-comps-table.csv`.
 
 ---
 
 ## Validation Checklist
 
-- [ ] Multiples calculated correctly from peer data
+- [ ] Multiples calculated correctly
 - [ ] Negative EBITDA peers excluded from EV/EBITDA
-- [ ] Target valuation calculated using appropriate methods
-- [ ] Sensitivity analysis completed
+- [ ] Median used (not mean)
 - [ ] Premium/discount rationale documented
+- [ ] Sensitivity analysis completed
+- [ ] EV bridged to equity value
+
+> **Reference:** See [Data Validation Rules](shared-standards.md#data-validation-rules) for calculation checks.
 
 ---
 

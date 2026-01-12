@@ -6,7 +6,7 @@
 
 ## Objective
 
-Standardize output formats for all analysis deliverables to ensure consistency, readability, and professional presentation.
+Compile all analysis outputs into a final professional report and export data tables as CSV.
 
 ---
 
@@ -15,9 +15,8 @@ Standardize output formats for all analysis deliverables to ensure consistency, 
 | Output Type | Format | Location |
 |-------------|--------|----------|
 | Target Summary | Markdown | `output/{company}/01-target-summary.md` |
-| Peer Selection + Data | Markdown + CSV | `output/{company}/02-peer-selection.md`, `02-peer-data.csv` |
+| Peer Selection | Markdown + CSV | `output/{company}/02-peer-selection.md`, `02-peer-data.csv` |
 | Valuation | Markdown + CSV | `output/{company}/03-valuation-analysis.md`, `03-comps-table.csv` |
-| Sensitivity | CSV | `output/{company}/03-sensitivity.csv` |
 | Final Report | Markdown | `output/reports/{company}-comps-report-{date}.md` |
 
 ---
@@ -27,19 +26,20 @@ Standardize output formats for all analysis deliverables to ensure consistency, 
 ```
 output/
 ├── {company-name}/
-│   ├── 01-target-summary.md      # Target analysis
-│   ├── 02-peer-selection.md      # Peer group + financial data
-│   ├── 02-peer-data.csv          # Peer data export
-│   ├── 03-valuation-analysis.md  # Valuation
-│   ├── 03-comps-table.csv        # Trading multiples
-│   └── 03-sensitivity.csv        # Sensitivity data
+│   ├── 01-target-summary.md
+│   ├── 02-peer-selection.md
+│   ├── 02-peer-data.csv
+│   ├── 03-valuation-analysis.md
+│   └── 03-comps-table.csv
 └── reports/
     └── {company-name}-comps-report-{YYYY-MM-DD}.md
 ```
 
 ---
 
-## Markdown Formatting Standards
+## Formatting Standards
+
+> **Reference:** See `instructions/shared-standards.md#output-formatting-standards` for detailed formatting rules.
 
 ### Document Header
 
@@ -48,95 +48,36 @@ output/
 
 **회사:** {Company Name}
 **분석일:** {YYYY-MM-DD}
-**분석가:** {Analyst/Tool Name}
-**버전:** {v1.0}
+**분석가:** Claude AI
+**버전:** v1.0
 
 ---
 ```
 
-### Table Formatting
+### Numeric Tables
 
-#### Numeric Tables
-- Right-align numeric columns
-- Include units in header: `Revenue ($M)` or `EV/EBITDA (x)`
-- Use consistent decimal places (2 for currency, 1 for multiples)
-- Bold summary rows (Mean, Median, Total)
+- Right-align numbers: `|---:|`
+- Include units in header: `Revenue ($M)`
+- Use consistent decimals (2 for currency, 1 for multiples)
+- Bold summary rows
 
-```markdown
-| Company | Revenue ($M) | EBITDA ($M) | EV/Revenue (x) |
-|:--------|-------------:|------------:|---------------:|
-| Peer A  |       1,234.56 |      185.18 |           3.2 |
-| Peer B  |         987.65 |      148.15 |           2.8 |
-| **Mean** |   **1,111.11** | **166.67** |       **3.0** |
-```
+### CSV Files
 
-#### Text Tables
-- Left-align text columns
-- Keep descriptions concise
-
-```markdown
-| Category | Description |
-|:---------|:------------|
-| Industry | Enterprise Software |
-| Business Model | SaaS - Subscription |
-```
-
-### Warning/Flag Formatting
-
-```markdown
-> ⚠️ **주의:** [Warning message in Korean]
-
-> ⚠️ **데이터 부재:** 일부 기업의 EBITDA 데이터가 확인되지 않아 제외됨
-```
+- Use snake_case headers: `revenue_m`, `ev_ebitda_x`
+- Include unit suffix: `_m` (millions), `_pct` (percent), `_x` (multiples)
+- No commas in numbers
 
 ---
 
-## CSV Formatting Standards
+## Final Report Template
 
-### File Naming
-```
-{company}-{content}-{YYYY-MM-DD}.csv
-
-Examples:
-- nota-peer-data-2024-01-15.csv
-- nota-comps-table-2024-01-15.csv
-- nota-sensitivity-2024-01-15.csv
-```
-
-### Column Headers
-- Use snake_case: `revenue_m`, `ev_ebitda_x`, `market_cap_m`
-- Include unit suffix: `_m` for millions, `_pct` for percentage, `_x` for multiples
-- First column should be identifier (company name or ticker)
-
-### Data Formatting
-- Numbers: No commas, use period for decimal
-- Dates: YYYY-MM-DD format
-- Missing values: Leave blank or use "N/A"
-- Currency: Omit symbol, note currency in filename or metadata row
-
-### Example CSV Structure
-
-```csv
-# Peer Data Export
-# Currency: USD (millions)
-# Date: 2024-01-15
-company,ticker,revenue_m,ebitda_m,cash_m,debt_m,market_cap_m,ev_m,growth_pct,source
-Target Co,XXXX,500.00,75.00,100.00,150.00,1200.00,1250.00,25,10-K-2023.pdf
-Peer A,AAAA,750.00,112.50,200.00,250.00,2000.00,2050.00,18,stockanalysis.com
-```
-
----
-
-## Report Template
-
-### Full Analysis Report Structure
+**Save to:** `output/reports/{company}-comps-report-{YYYY-MM-DD}.md`
 
 ```markdown
 # {Company Name} Comparable Analysis Report
 
 **분석일:** {YYYY-MM-DD}
 **분석가:** Claude AI
-**버전:** v1.0
 
 ---
 
@@ -145,14 +86,12 @@ Peer A,AAAA,750.00,112.50,200.00,250.00,2000.00,2050.00,18,stockanalysis.com
 ### 핵심 결론
 - [Key finding 1]
 - [Key finding 2]
-- [Key finding 3]
 
 ### 밸류에이션 요약
 
 | 방법론 | Low | Mid | High |
 |--------|-----|-----|------|
 | EV/Revenue | $XXX M | $XXX M | $XXX M |
-| EV/EBITDA | $XXX M | $XXX M | $XXX M |
 | **Blended** | **$XXX M** | **$XXX M** | **$XXX M** |
 
 ---
@@ -175,21 +114,13 @@ Peer A,AAAA,750.00,112.50,200.00,250.00,2000.00,2050.00,18,stockanalysis.com
 
 ---
 
-## 4. 민감도 분석
-
-[Sensitivity tables]
-
----
-
-## 5. 리스크 및 제한사항
+## 4. 리스크 및 제한사항
 
 ### 분석 제한사항
 - [Limitation 1]
-- [Limitation 2]
 
 ### 주요 리스크
 - [Risk 1]
-- [Risk 2]
 
 ---
 
@@ -199,67 +130,33 @@ Peer A,AAAA,750.00,112.50,200.00,250.00,2000.00,2050.00,18,stockanalysis.com
 | 데이터 | 출처 | 날짜 |
 |--------|------|------|
 | SEC Filings | SEC EDGAR | YYYY-MM-DD |
-| Market Data | [Source] | YYYY-MM-DD |
 
 ### B. 용어 정의
 | 용어 | 정의 |
 |------|------|
 | EV | Enterprise Value = Market Cap + Debt - Cash |
 | EBITDA | Earnings Before Interest, Taxes, Depreciation & Amortization |
-| LTM | Last Twelve Months |
 
 ---
 
 **Disclaimer:** 본 분석은 교육 목적으로 작성되었으며, 투자 권유가 아닙니다.
-
----
-Generated by Claude AI | {YYYY-MM-DD}
-```
-
----
-
-## File Download Links
-
-When referencing downloadable files in reports:
-
-```markdown
-### 첨부 파일
-- [Peer Data (CSV)](./02-peer-data.csv)
-- [Comps Table (CSV)](./03-comps-table.csv)
-- [민감도 분석 (CSV)](./03-sensitivity.csv)
 ```
 
 ---
 
 ## Quality Checklist
 
-Before finalizing output:
-
 ### Content
 - [ ] All sections complete
 - [ ] Numbers verified and consistent
 - [ ] Sources cited for all data
-- [ ] Assumptions documented
-- [ ] Limitations disclosed
 
 ### Formatting
 - [ ] Tables properly aligned
 - [ ] Units clearly labeled
-- [ ] Consistent decimal places
-- [ ] Headers and footers present
 - [ ] Date stamp included
 
 ### Files
 - [ ] Markdown renders correctly
 - [ ] CSV opens in Excel/Sheets
 - [ ] File names follow convention
-- [ ] Directory structure correct
-
----
-
-## Usage Example
-
-```bash
-claude
-> "Using prompts/04-output-format.md, compile all analysis outputs for {Company} into a final report. Save to output/reports/{company}-comps-report-{date}.md and export data tables as CSV."
-```

@@ -18,8 +18,8 @@ Compile all analysis outputs into professional deliverables: Markdown reports an
 
 ```bash
 claude
-# Compile final report for Nota
-> "Compile all analysis files in output/nota/ into a final comprehensive report. Include executive summary, valuation range, and export CSV files. Save to output/reports/nota-comps-report-{date}.md"
+# Compile final report
+> "Compile all analysis files in output/nota/ into a final comprehensive report. Save to output/reports/nota-comps-report-{date}.md"
 
 # Or with explicit prompt reference
 > "Using prompts/04-output-format.md, compile all analysis for Nota into a final report with CSV exports"
@@ -27,34 +27,27 @@ claude
 
 ---
 
-## Completed Output Example (Nota)
+## What You'll Learn
 
-```
-output/
-├── nota/
-│   ├── 01-target-summary.md      # Target analysis
-│   ├── 02-peer-selection.md      # Peer group + financial data
-│   ├── 02-peer-data.csv          # Peer data export
-│   ├── 03-valuation-analysis.md  # Valuation range
-│   ├── 03-comps-table.csv        # Trading multiples
-│   └── 03-sensitivity.csv        # Sensitivity matrix
-│
-└── reports/
-    └── nota-comps-report-2026-01-12.md
-```
+By completing this stage, you will understand:
+
+1. **Output structure** - What files to create
+2. **Formatting standards** - Consistent, professional output
+3. **Report compilation** - Combining stage outputs
+4. **Quality checks** - Validation before delivery
 
 ---
 
-## Output Directory Structure
+## Output Structure
 
 ```
 output/
 ├── {company-name}/
-│   ├── 01-target-summary.md      # Target analysis
-│   ├── 02-peer-selection.md      # Peer group + data
-│   ├── 02-peer-data.csv          # Data export
-│   ├── 03-valuation-analysis.md  # Valuation
-│   ├── 03-comps-table.csv        # Multiples export
+│   ├── 01-target-summary.md      # Stage 1 output
+│   ├── 02-peer-selection.md      # Stage 2 output
+│   ├── 02-peer-data.csv          # Peer data export
+│   ├── 03-valuation-analysis.md  # Stage 3 output
+│   ├── 03-comps-table.csv        # Comps table export
 │   └── 03-sensitivity.csv        # Sensitivity data
 │
 └── reports/
@@ -65,198 +58,64 @@ output/
 
 ## File Formats
 
-### Markdown (.md)
+| Type | Format | Use For |
+|------|--------|---------|
+| Markdown (.md) | Narrative | Reports, summaries, formatted tables |
+| CSV (.csv) | Data | Spreadsheet-compatible data exports |
 
-Use for narrative analysis and formatted tables:
-- Executive summaries
-- Investment commentary
-- Formatted data tables
-- Risk analysis
-
-### CSV (.csv)
-
-Use for numerical data and spreadsheet compatibility:
-- Financial data extracts
-- Comps tables
-- Sensitivity outputs
-- Time series data
+> **Reference:** See [Output Formatting Standards](shared-standards.md#output-formatting-standards) for detailed formatting rules.
 
 ---
 
-## Markdown Formatting Standards
-
-### Document Header
-
-```markdown
-# {Document Title}
-
-**회사:** {Company Name}
-**분석일:** {YYYY-MM-DD}
-**분석가:** {Analyst Name}
-**버전:** v1.0
-
----
-```
-
-### Table Formatting
-
-**Numeric Tables** - Right-align numbers, include units:
-
-```markdown
-| Company | Revenue ($M) | EBITDA ($M) | EV/EBITDA (x) |
-|:--------|-------------:|------------:|--------------:|
-| Peer A  |       1,234.56 |      185.18 |          12.5 |
-| Peer B  |         987.65 |      148.15 |          10.8 |
-| **Mean** |  **1,111.11** | **166.67** |      **11.7** |
-```
-
-**Text Tables** - Left-align:
-
-```markdown
-| Category | Description |
-|:---------|:------------|
-| Industry | Enterprise Software |
-| Business Model | SaaS - Subscription |
-```
-
-### Warnings
-
-```markdown
-> ⚠️ **주의:** [Warning message]
-
-> ⚠️ **데이터 부재:** 일부 기업의 EBITDA 데이터가 확인되지 않아 제외됨
-```
-
----
-
-## CSV Formatting Standards
-
-### File Naming
-
-```
-{company}-{content}-{YYYY-MM-DD}.csv
-
-Examples:
-- nota-peer-data-2024-01-15.csv
-- nota-comps-table-2024-01-15.csv
-```
-
-### Column Headers
-
-- Use snake_case: `revenue_m`, `ev_ebitda_x`
-- Include unit suffix: `_m` (millions), `_pct` (percent), `_x` (multiple)
-
-### Data Formatting
-
-- Numbers: No commas, period for decimal
-- Dates: YYYY-MM-DD
-- Missing values: Leave blank or "N/A"
-
-### Example CSV
-
-```csv
-# Comps Table Export
-# Currency: USD (millions)
-# Date: 2024-01-15
-company,ticker,revenue_m,ebitda_m,ev_m,ev_revenue_x,ev_ebitda_x,source_file
-Target Co,XXXX,500.00,75.00,1250.00,2.50,16.67,10-K-2024.pdf
-Peer A,AAAA,750.00,112.50,2050.00,2.73,18.22,stockanalysis.com
-```
-
----
-
-## Final Report Template
+## Final Report Structure
 
 ```markdown
 # {Company Name} Comparable Analysis Report
 
-**분석일:** {YYYY-MM-DD}
+**분석일:** YYYY-MM-DD
 **분석가:** Claude AI
-**버전:** v1.0
 
 ---
 
 ## Executive Summary
-
 ### 핵심 결론
 - [Key finding 1]
 - [Key finding 2]
-- [Key finding 3]
 
 ### 밸류에이션 요약
-
-| 방법론 | Low | Mid | High |
+| Method | Low | Mid | High |
 |--------|-----|-----|------|
 | EV/Revenue | $XXX M | $XXX M | $XXX M |
-| EV/EBITDA | $XXX M | $XXX M | $XXX M |
 | **Blended** | **$XXX M** | **$XXX M** | **$XXX M** |
 
 ---
 
 ## 1. 회사 개요
-
 [From 01-target-summary.md]
 
----
-
 ## 2. Peer Group 및 재무 데이터
-
 [From 02-peer-selection.md]
 
----
-
 ## 3. 밸류에이션 분석
-
 [From 03-valuation-analysis.md]
 
----
-
-## 4. 민감도 분석
-
-[Sensitivity tables]
-
----
-
-## 5. 리스크 및 제한사항
-
-### 분석 제한사항
+## 4. 리스크 및 제한사항
 - [Limitation 1]
-- [Limitation 2]
-
-### 주요 리스크
 - [Risk 1]
-- [Risk 2]
 
 ---
 
 ## Appendix
-
 ### A. 데이터 출처
-
-| 데이터 | 출처 | 날짜 |
-|--------|------|------|
-| SEC Filings | SEC EDGAR | YYYY-MM-DD |
-| Market Data | [Source] | YYYY-MM-DD |
-
 ### B. 용어 정의
 
-| 용어 | 정의 |
-|------|------|
-| EV | Enterprise Value = Market Cap + Debt - Cash |
-| EBITDA | Earnings Before Interest, Taxes, D&A |
-| LTM | Last Twelve Months |
-
 ---
-
 **Disclaimer:** 본 분석은 교육 목적으로 작성되었으며, 투자 권유가 아닙니다.
-
----
-Generated by Claude AI | {YYYY-MM-DD}
 ```
 
 ---
 
-## Generating Reports with Claude
+## Common Prompts
 
 ### Full Report Generation
 
@@ -271,7 +130,7 @@ Generated by Claude AI | {YYYY-MM-DD}
    Save to output/reports/{company}-comps-report-{date}.md"
 ```
 
-### Compile from Existing Analysis
+### Compile from Existing
 
 ```bash
 > "Combine the analysis files in output/{company}/ into a single formatted report:
@@ -285,21 +144,8 @@ Generated by Claude AI | {YYYY-MM-DD}
 
 ```bash
 > "Export the comps table to CSV with columns:
-   Company, Ticker, Revenue, EBITDA, Net Income, Market Cap, EV, EV/Revenue, EV/EBITDA, P/E
+   Company, Ticker, Revenue, EBITDA, Market Cap, EV, EV/Revenue, EV/EBITDA
    Save to output/{company}/03-comps-table.csv"
-```
-
----
-
-## File Download Links
-
-In your report, reference files:
-
-```markdown
-### 첨부 파일
-- [Peer Data (CSV)](./02-peer-data.csv)
-- [Comps Table (CSV)](./03-comps-table.csv)
-- [민감도 분석 (CSV)](./03-sensitivity.csv)
 ```
 
 ---
@@ -317,20 +163,18 @@ In your report, reference files:
 - [ ] Tables properly aligned
 - [ ] Units clearly labeled
 - [ ] Consistent decimal places
-- [ ] Headers and footers present
 - [ ] Date stamp included
 
 ### Files
 - [ ] Markdown renders correctly
-- [ ] CSV opens in Excel/Google Sheets
+- [ ] CSV opens in Excel/Sheets
 - [ ] File names follow convention
-- [ ] Directory structure correct
 
 ---
 
 ## Post-Analysis Steps
 
-1. **Review** - Verify all calculations against source documents
+1. **Review** - Verify calculations against source documents
 2. **Archive** - Keep source files in dataroom for reference
 3. **Share** - Distribute reports to stakeholders
 4. **Update** - Refresh analysis when new data available
@@ -341,7 +185,7 @@ In your report, reference files:
 
 Congratulations! You've completed the comparable analysis workflow.
 
-**Summary of Deliverables:**
+**Deliverables Created:**
 - Target company summary
 - Peer group selection with financial data
 - Trading multiples analysis
