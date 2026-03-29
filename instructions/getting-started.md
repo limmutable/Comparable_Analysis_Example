@@ -188,6 +188,8 @@ brew install gemini-cli
 
 # All platforms (npm)
 npm install -g gemini-chat-cli
+or
+npm install -g @google/gemini-cli
 ```
 
 ### 8.2 Authenticate Gemini CLI
